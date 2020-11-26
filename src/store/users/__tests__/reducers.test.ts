@@ -9,6 +9,7 @@ const fakeUser:IUser = {
   name: 'Foo foo',
   email: 'foo@foo.foo',
   id: 123,
+  age: 30,
 };
 
 describe('UserList reducer', () => {
@@ -66,6 +67,7 @@ describe('UserList reducer', () => {
         name: 'Foo Boo',
         email: 'boo@foo.foo',
         id: 123,
+        age: 30,
       },
     };
     const state = reducer(userList, action);

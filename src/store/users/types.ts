@@ -5,6 +5,7 @@ export interface IUser {
   name: string
   username: string
   email: string
+  age:number
 }
 
 export interface ISort {
@@ -51,10 +52,18 @@ interface SortUserBy {
   payload:IUser[]
 }
 
-interface Search {
-  type: typeof UserActions.SEARCH
-  query: string
+interface GetFilterdUsers {
+  type: typeof UserActions.GET_FILTERD_USERS
   payload:IUser[]
+}
+
+interface TriggerUserSearch {
+  type: typeof UserActions.TRIGGER_USER_SEARCH
+  query:string
+}
+
+interface ToggleLoader {
+  type: typeof UserActions.LOADING
 }
 
 export type UserListActionTypes = GetUsers
@@ -62,4 +71,6 @@ export type UserListActionTypes = GetUsers
 | DeleteUser
 | UpdateUser
 | SortUserBy
-| Search;
+| GetFilterdUsers
+| TriggerUserSearch
+| ToggleLoader;

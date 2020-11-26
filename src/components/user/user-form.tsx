@@ -43,6 +43,7 @@ const UserForm: React.FC<Props> = ({
         <Form>
           <Form.Input
             fluid
+            disabled={user.id !== 0}
             type="text"
             id="username"
             name="username"
@@ -66,6 +67,15 @@ const UserForm: React.FC<Props> = ({
             name="email"
             value={userData.email}
             placeholder="Email"
+            onChange={handleUserData}
+          />
+          <Form.Input
+            fluid
+            type="text"
+            id="age"
+            name="age"
+            value={userData.age}
+            placeholder="Age"
             onChange={handleUserData}
           />
         </Form>

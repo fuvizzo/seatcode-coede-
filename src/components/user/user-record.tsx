@@ -17,23 +17,21 @@ const User: React.FC<Props> = ({ user, confirmDeletion, updateUser }) => {
     setEditModeOn(false);
   }, [updateUser]);
 
-  if (editModeOn) {
-    return (
+  return (
+    <>
+      {editModeOn && (
       <UserForm
         header="Edit user"
         user={{ ...user }}
         onCancel={() => setEditModeOn(false)}
         onSubmitButtonClicked={updateHandler}
       />
-    );
-  }
-
-  return (
-    <>
+      )}
       <Table.Cell>{user.username}</Table.Cell>
       <Table.Cell>{user.name}</Table.Cell>
       <Table.Cell>{user.email}</Table.Cell>
-      <Table.Cell>
+      <Table.Cell>{user.age}</Table.Cell>
+      <Table.Cell textAlign="center">
         <Button primary animated="vertical" onClick={confirmDeletion}>
           <Button.Content hidden>Delete</Button.Content>
           <Button.Content visible>

@@ -1,4 +1,4 @@
-import { ISort, IUser, UserListActionTypes } from './types';
+import { IUser, UserListActionTypes } from './types';
 import * as UserActions from './constants';
 
 const getUsers = (users: IUser[]): UserListActionTypes => ({
@@ -29,17 +29,30 @@ const sortUserBy = (column:string, results:IUser[]): UserListActionTypes => ({
   payload: results,
 });
 
-const searchUser = (query: string, results:IUser[]): UserListActionTypes => ({
-  type: UserActions.SEARCH,
-  query,
+const getFilteredUsers = (results:IUser[]): UserListActionTypes => ({
+  type: UserActions.GET_FILTERD_USERS,
   payload: results,
 });
 
-export default {
+const triggerUserSearch = (query: string): UserListActionTypes => ({
+  type: UserActions.TRIGGER_USER_SEARCH,
+  query,
+});
+
+const setLoading = (): UserListActionTypes => ({
+  type: UserActions.LOADING,
+});
+
+const crudUserActions = {
   getUsers,
   createUser,
   updateUser,
   deleteUser,
-  searchUser,
   sortUserBy,
+  setLoading,
+  getFilteredUsers,
 };
+
+export const uiActions = { triggerUserSearch };
+
+export default crudUserActions;

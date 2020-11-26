@@ -36,6 +36,7 @@ const fakeUser:IUser = {
   name: 'Foo foo',
   email: 'foo@foo.foo',
   id: 123,
+  age: 30,
 };
 
 describe('actions', () => {
