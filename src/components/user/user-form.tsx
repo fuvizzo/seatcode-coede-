@@ -1,6 +1,8 @@
-import * as React from "react"
-import { IUser } from "../../store/users/types"
-import { Button, Icon, Modal, Form } from 'semantic-ui-react'
+import * as React from 'react';
+import {
+  Button, Icon, Modal, Form,
+} from 'semantic-ui-react';
+import { IUser } from '../../store/users/types';
 
 type Props = {
   onSubmitButtonClicked: (user: IUser) => void
@@ -13,21 +15,21 @@ const UserForm: React.FC<Props> = ({
   header,
   user,
   onSubmitButtonClicked,
-  onCancel
+  onCancel,
 }) => {
-  const [userData, setUserData] = React.useState<IUser>(user)
+  const [userData, setUserData] = React.useState<IUser>(user);
 
   const handleUserData = (e: React.FormEvent<HTMLInputElement>) => {
     setUserData({
       ...userData,
       [e.currentTarget.name]: e.currentTarget.value,
-    })
-  }
+    });
+  };
 
   const handelSubmitButtonClick = (e: React.FormEvent) => {
-    e.preventDefault()
-    onSubmitButtonClicked(userData)
-  }
+    e.preventDefault();
+    onSubmitButtonClicked(userData);
+  };
 
   return (
     <Modal
@@ -38,8 +40,9 @@ const UserForm: React.FC<Props> = ({
       <Modal.Header>{header}</Modal.Header>
 
       <Modal.Content>
-        <Form >
-          <Form.Input fluid
+        <Form>
+          <Form.Input
+            fluid
             type="text"
             id="username"
             name="username"
@@ -47,7 +50,8 @@ const UserForm: React.FC<Props> = ({
             placeholder="Username"
             onChange={handleUserData}
           />
-          <Form.Input fluid
+          <Form.Input
+            fluid
             type="text"
             id="name"
             name="name"
@@ -55,7 +59,8 @@ const UserForm: React.FC<Props> = ({
             placeholder="First name and last name"
             onChange={handleUserData}
           />
-          <Form.Input fluid
+          <Form.Input
+            fluid
             type="text"
             id="email"
             name="email"
@@ -66,21 +71,21 @@ const UserForm: React.FC<Props> = ({
         </Form>
       </Modal.Content>
       <Modal.Actions>
-        <Button onClick={onCancel} animated='vertical'>
+        <Button onClick={onCancel} animated="vertical">
           <Button.Content hidden>Cancel</Button.Content>
           <Button.Content visible>
-            <Icon name='cancel' />
+            <Icon name="cancel" />
           </Button.Content>
         </Button>
-        <Button onClick={handelSubmitButtonClick} primary animated='vertical'>
+        <Button onClick={handelSubmitButtonClick} primary animated="vertical">
           <Button.Content hidden>Save</Button.Content>
           <Button.Content visible>
-            <Icon name='save' />
+            <Icon name="save" />
           </Button.Content>
         </Button>
       </Modal.Actions>
     </Modal>
-  )
-}
+  );
+};
 
 export default UserForm;

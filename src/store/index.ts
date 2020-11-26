@@ -1,10 +1,13 @@
-import { createStore, applyMiddleware, compose, combineReducers, Action } from 'redux';
+import {
+  createStore, applyMiddleware, compose, combineReducers, Action,
+} from 'redux';
 
 import thunk, { ThunkAction } from 'redux-thunk';
 
-import { UserListReducer } from './users/reducers';
+import UserListReducer from './users/reducers';
 
 declare global {
+  // eslint-disable-next-line no-unused-vars
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
   }
@@ -12,13 +15,13 @@ declare global {
 const storeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
-  userList: UserListReducer
+  userList: UserListReducer,
 });
 
 const Store = createStore(
   rootReducer,
-  //Note: the following line is just used to enable Redux Dev Tools
-  storeEnhancers(applyMiddleware(thunk))
+  // Note: the following line is just used to enable Redux Dev Tools
+  storeEnhancers(applyMiddleware(thunk)),
 );
 
 export type RootState = ReturnType<typeof rootReducer>

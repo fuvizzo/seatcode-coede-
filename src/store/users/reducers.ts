@@ -1,29 +1,28 @@
+import _ from 'lodash';
 import {
   IUserList,
-  UserListActionTypes
+  UserListActionTypes,
 
 } from './types';
-import _ from 'lodash';
 import * as UserActions from './constants';
-
 
 const initialState: IUserList = {
   users: [],
   sort: {
-    column: "name",
-    direction: "ascending"
-  }
-}
+    column: 'name',
+    direction: 'ascending',
+  },
+};
 
-export function UserListReducer(
+const UserListReducer = (
   state = initialState,
-  action: UserListActionTypes
-): IUserList {
+  action: UserListActionTypes,
+): IUserList => {
   switch (action.type) {
     case UserActions.GET_USERS:
       return {
         ...state,
-        users: action.payload
+        users: action.payload,
       };
     case UserActions.SORT_USER_BY:
       if (state.sort.column === action.column) {
@@ -31,10 +30,10 @@ export function UserListReducer(
           sort: {
             direction:
               state.sort.direction === 'ascending' ? 'descending' : 'ascending',
-            column: action.column
+            column: action.column,
           },
           users: state.users.reverse(),
-        }
+        };
       }
 
       return {
@@ -43,33 +42,35 @@ export function UserListReducer(
           direction: 'ascending',
         },
         users: _.sortBy(state.users, [action.column]),
-      }
+      };
     case UserActions.CREATE_USER:
       return {
         ...state,
-        users: [...state.users, action.payload]
-      }
+        users: [...state.users, action.payload],
+      };
     case UserActions.DELETE_USER:
       return {
         ...state,
         users: state.users.filter(
-          user => user.id !== action.meta.id
-        )
-      }
+          (user) => user.id !== action.meta.id,
+        ),
+      };
     case UserActions.UPDATE_USER:
       return {
         ...state,
         users: state.users.map((user) => {
           if (user.id !== action.payload.id) {
-            return user
+            return user;
           }
           return {
             ...user,
-            ...action.payload
-          }
-        })
-      }
+            ...action.payload,
+          };
+        }),
+      };
     default:
-      return state
+      return state;
   }
-}
+};
+
+export default UserListReducer;
