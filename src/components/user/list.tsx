@@ -31,6 +31,7 @@ const UserList: React.FC<PropsFromRedux> = ({
   updateUser,
   sortUserBy,
 }) => {
+  const { users, sort } = userList;
   const [insertModeOn, setInsertModeOn] = React.useState<boolean>(false);
 
   React.useEffect(() => {
@@ -57,20 +58,27 @@ const UserList: React.FC<PropsFromRedux> = ({
           <Button primary onClick={() => setInsertModeOn(true)}>Add new user</Button>
         </Header>
 
-        <Table celled>
+        <Table sortable celled fixed>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell
-                onClick={() => sortUserBy('name')}
+                sorted={sort.column === 'username' ? sort.direction : undefined}
+                onClick={() => sortUserBy('username')}
               >Nickname
               </Table.HeaderCell>
-              <Table.HeaderCell>Name</Table.HeaderCell>
-              <Table.HeaderCell>Email</Table.HeaderCell>
+              <Table.HeaderCell
+                sorted={sort.column === 'name' ? sort.direction : undefined}
+                onClick={() => sortUserBy('name')}
+              >Name</Table.HeaderCell>
+              <Table.HeaderCell
+                sorted={sort.column === 'email' ? sort.direction : undefined}
+                onClick={() => sortUserBy('email')}
+              >Email</Table.HeaderCell>
               <Table.HeaderCell>Actions</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {userList.users.map(user =>
+            {users.map(user =>
               <Table.Row>
                 <User
                   key={user.id}

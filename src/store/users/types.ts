@@ -9,7 +9,7 @@ export interface IUser {
 
 export interface ISort {
   column: string
-  direction: string
+  direction: 'ascending' | 'descending' | undefined
 }
 
 export interface IUserList {
@@ -41,7 +41,7 @@ interface UpdateUser {
 
 interface SortUserBy {
   type: typeof UserActions.SORT_USER_BY
-  sort: ISort
+  column: string
 }
 
 export type UserListActionTypes = GetUsers | CreateUser | DeleteUser | UpdateUser | SortUserBy

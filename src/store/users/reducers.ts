@@ -26,12 +26,12 @@ export function UserListReducer(
         users: action.payload
       };
     case UserActions.SORT_USER_BY:
-      if (state.sort.column === action.sort.column) {
+      if (state.sort.column === action.column) {
         return {
           sort: {
             direction:
               state.sort.direction === 'ascending' ? 'descending' : 'ascending',
-            column: action.sort.column
+            column: action.column
           },
           users: state.users.reverse(),
         }
@@ -39,10 +39,10 @@ export function UserListReducer(
 
       return {
         sort: {
-          column: action.sort.column,
+          column: action.column,
           direction: 'ascending',
         },
-        users: _.sortBy(state.users, [action.sort.column]),
+        users: _.sortBy(state.users, [action.column]),
       }
     /*  case UserActions.CREATE_USER:
        return [...state, action.payload]

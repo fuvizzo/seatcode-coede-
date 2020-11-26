@@ -31,9 +31,9 @@ export function updateUser(user: IUser): UserListActionTypes {
   }
 }
 
-export function sortUserBy(sort: ISort): UserListActionTypes {
+export function sortUserBy(column: string): UserListActionTypes {
   return {
     type: UserActions.SORT_USER_BY,
-    sort
+    column
   }
 } 
