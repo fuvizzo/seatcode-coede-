@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import {
-  Header, Table, Button, Container,
+  Search, Table, Button, Container, Grid,
 } from 'semantic-ui-react';
 import User from './user-record';
-import * as userCRUDActions from '../../store/users/thunk';
-import { UIActions } from '../../store/users/actions';
+import * as userActions from '../../store/users/thunk';
 import { RootState } from '../../store';
 import UserForm from './user-form';
 import { IUser } from '../../store/users/types';
@@ -13,7 +12,7 @@ import DeleteWarningModal from './delete-warning-modal';
 
 const connector = connect(
   (userList: RootState) => userList,
-  { ...userCRUDActions, ...UIActions },
+  userActions,
 );
 
 const newUser: IUser = {
@@ -32,8 +31,11 @@ const UserList: React.FC<PropsFromRedux> = ({
   deleteUser,
   updateUser,
   sortUserBy,
+  searchUser,
 }) => {
-  const { users, sort } = userList;
+  const {
+    users, sort, loading, search: { query },
+  } = userList;
   const [insertModeOn, setInsertModeOn] = React.useState<boolean>(false);
   const [pendingDeleteUser, setPendingDeleteUser] = React.useState<IUser | any>(null);
 
@@ -59,6 +61,10 @@ const UserList: React.FC<PropsFromRedux> = ({
     [setPendingDeleteUser],
   );
 
+  const handleSearchChange = React.useCallback((e, data) => {
+    searchUser(data.value);
+  }, []);
+
   if (insertModeOn) {
     return (
       <UserForm
@@ -79,9 +85,21 @@ const UserList: React.FC<PropsFromRedux> = ({
           onCancel={() => confirmDeletionHandler(null)}
         />
       )}
-      <Header textAlign="right">
-        <Button primary onClick={() => setInsertModeOn(true)}>Add new user</Button>
-      </Header>
+      <Grid divided="vertically" padded="vertically">
+        <Grid.Row columns={2}>
+          <Grid.Column textAlign="left">
+            <Search
+              placeholder="Enter any word here..."
+              loading={loading}
+              onSearchChange={handleSearchChange}
+              value={query}
+            />
+          </Grid.Column>
+          <Grid.Column textAlign="right">
+            <Button primary onClick={() => setInsertModeOn(true)}>Add new user</Button>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
       <Table sortable celled fixed>
         <Table.Header>
           <Table.Row>

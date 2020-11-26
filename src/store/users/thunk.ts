@@ -1,18 +1,18 @@
 import { Action } from 'redux';
 import axios, { AxiosResponse } from 'axios';
 import { ThunkAction } from 'redux-thunk';
-import {
-  CRUDActions,
-} from './actions';
+import UserActions from './actions';
 import { RootState } from '..';
-import { IUser } from './types';
+import { ISort, IUser } from './types';
 
 const {
   getUsers: getUserActions,
   deleteUser: deleteUserAction,
   updateUser: updateUserAction,
   createUser: createUserAction,
-} = CRUDActions;
+  searchUser: searchAction,
+  sortUserBy: sortUserByAction,
+} = UserActions;
 
 const URL: string = 'http://localhost:3004';
 
@@ -60,6 +60,33 @@ export const createUser = (user: IUser):
     const newUser:IUser = { ...user, id: res.data.id };
     dispatch(
       createUserAction(newUser),
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const searchUser = (query: string):
+ ThunkAction<void, RootState, unknown, Action<string>> => async (dispatch) => {
+  try {
+    const results: AxiosResponse<any> = await axios.get(`${URL}/users?q=${query}`);
+    const users: IUser[] = results.data;
+    dispatch(
+      searchAction(query, users),
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const sortUserBy = (column:string):
+ ThunkAction<void, RootState, unknown, Action<string>> => async (dispatch, getState) => {
+  try {
+    const sortingOrder = getState().userList.sort.direction === 'ascending' ? 'asc' : 'desc';
+    const results: AxiosResponse<any> = await axios.get(`${URL}/users?_sort=${column}&_order=${sortingOrder}`);
+    const users: IUser[] = results.data;
+    dispatch(
+      sortUserByAction(column, users),
     );
   } catch (error) {
     console.log(error);

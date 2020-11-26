@@ -12,6 +12,10 @@ const initialState: IUserList = {
     column: 'name',
     direction: 'ascending',
   },
+  search: {
+    query: '',
+  },
+  loading: false,
 };
 
 const UserListReducer = (
@@ -25,23 +29,19 @@ const UserListReducer = (
         users: action.payload,
       };
     case UserActions.SORT_USER_BY:
-      if (state.sort.column === action.column) {
-        return {
-          sort: {
-            direction:
-              state.sort.direction === 'ascending' ? 'descending' : 'ascending',
-            column: action.column,
-          },
-          users: state.users.reverse(),
-        };
-      }
-
       return {
+        ...state,
         sort: {
           column: action.column,
-          direction: 'ascending',
+          direction: state.sort.direction === 'ascending' ? 'descending' : 'ascending',
         },
-        users: _.sortBy(state.users, [action.column]),
+        users: action.payload,
+      };
+    case UserActions.SEARCH:
+      return {
+        ...state,
+        search: { query: action.query },
+        users: action.payload,
       };
     case UserActions.CREATE_USER:
       return {

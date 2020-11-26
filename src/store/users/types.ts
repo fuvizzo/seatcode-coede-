@@ -12,9 +12,15 @@ export interface ISort {
   direction: 'ascending' | 'descending' | undefined
 }
 
+export interface ISearch {
+  query:string
+}
+
 export interface IUserList {
   users: IUser[]
   sort: ISort
+  search:ISearch
+  loading: boolean
 }
 
 interface GetUsers {
@@ -41,7 +47,19 @@ interface UpdateUser {
 
 interface SortUserBy {
   type: typeof UserActions.SORT_USER_BY
-  column: string
+  column:string
+  payload:IUser[]
 }
 
-export type UserListActionTypes = GetUsers | CreateUser | DeleteUser | UpdateUser | SortUserBy
+interface Search {
+  type: typeof UserActions.SEARCH
+  query: string
+  payload:IUser[]
+}
+
+export type UserListActionTypes = GetUsers
+| CreateUser
+| DeleteUser
+| UpdateUser
+| SortUserBy
+| Search;

@@ -1,4 +1,4 @@
-import { IUser, UserListActionTypes } from './types';
+import { ISort, IUser, UserListActionTypes } from './types';
 import * as UserActions from './constants';
 
 const getUsers = (users: IUser[]): UserListActionTypes => ({
@@ -23,18 +23,23 @@ const updateUser = (user: IUser): UserListActionTypes => ({
   payload: user,
 });
 
-const sortUserBy = (column: string): UserListActionTypes => ({
+const sortUserBy = (column:string, results:IUser[]): UserListActionTypes => ({
   type: UserActions.SORT_USER_BY,
   column,
+  payload: results,
 });
 
-export const CRUDActions = {
+const searchUser = (query: string, results:IUser[]): UserListActionTypes => ({
+  type: UserActions.SEARCH,
+  query,
+  payload: results,
+});
+
+export default {
   getUsers,
   createUser,
   updateUser,
   deleteUser,
-};
-
-export const UIActions = {
+  searchUser,
   sortUserBy,
 };

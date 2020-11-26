@@ -2,8 +2,8 @@
   "users": [
     {
       "id": 1,
-      "name": "gioag_affas",
-      "username": "Bret Powella",
+      "name": "Bret Powella",
+      "username": "Gioag_affas",
       "email": "Xbvc@foo.foo"
     },
     {
@@ -63,7 +63,7 @@
     {
       "id": 11,
       "username": "Fuvix1977e",
-      "email": "fulvio.cusimano@gmail.com",
+      "email": "Fulvio.cusimano@gmail.com",
       "name": "Fulvio Cusimano"
     }
   ]
