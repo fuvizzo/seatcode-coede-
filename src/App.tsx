@@ -7,6 +7,7 @@ function App() {
   return (
     <div className="App">
       <Container>
+        <h1>Display Active Users Account Details</h1>
         <UserList />
       </Container>
     </div>

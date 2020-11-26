@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    jest: true,
   },
   extends: [
     'plugin:react/recommended',
@@ -21,13 +22,13 @@ module.exports = {
   plugins: [
     'react',
     '@typescript-eslint',
+    'enzyme',
   ],
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.ts'] }],
     'react/prop-types': 'off',
     'no-use-before-define': 'off',
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-use-before-define': ['error'],
     'import/extensions': [
       'error',
       'ignorePackages',

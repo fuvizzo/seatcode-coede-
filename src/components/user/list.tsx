@@ -24,7 +24,7 @@ const newUser: IUser = {
 
 type PropsFromRedux = ConnectedProps<typeof connector>
 
-const UserList: React.FC<PropsFromRedux> = ({
+export const UserList: React.FC<PropsFromRedux> = ({
   userList,
   getUsers,
   createUser,
@@ -100,7 +100,7 @@ const UserList: React.FC<PropsFromRedux> = ({
           </Grid.Column>
         </Grid.Row>
       </Grid>
-      <Table sortable celled fixed>
+      <Table data-testid="table" sortable celled fixed>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell
@@ -126,9 +126,11 @@ const UserList: React.FC<PropsFromRedux> = ({
         </Table.Header>
         <Table.Body>
           {users.map((user) => (
-            <Table.Row>
+            <Table.Row
+              key={user.id}
+              data-testid="table-row"
+            >
               <User
-                key={user.id}
                 user={user}
                 updateUser={updateUser}
                 confirmDeletion={() => confirmDeletionHandler(user)}
@@ -136,24 +138,7 @@ const UserList: React.FC<PropsFromRedux> = ({
             </Table.Row>
           ))}
         </Table.Body>
-        <Table.Footer>
-          {/*  <Table.Row>
-              <Table.HeaderCell colSpan='4'>
-                <Menu floated='right' pagination>
-                  <Menu.Item as='a' icon>
-                    <Icon name='chevron left' />
-                  </Menu.Item>
-                  <Menu.Item as='a'>1</Menu.Item>
-                  <Menu.Item as='a'>2</Menu.Item>
-                  <Menu.Item as='a'>3</Menu.Item>
-                  <Menu.Item as='a'>4</Menu.Item>
-                  <Menu.Item as='a' icon>
-                    <Icon name='chevron right' />
-                  </Menu.Item>
-                </Menu>
-              </Table.HeaderCell>
-            </Table.Row> */}
-        </Table.Footer>
+        <Table.Footer />
       </Table>
     </Container>
   );
