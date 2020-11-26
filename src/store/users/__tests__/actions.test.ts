@@ -1,7 +1,8 @@
 import configureMockStore from 'redux-mock-store';
 import moxios from 'moxios';
-import thunk from 'redux-thunk';
+import thunk, { ThunkDispatch } from 'redux-thunk';
 import UserActions from '../actions';
+import { initialState } from '../reducers';
 import {
   GET_USERS,
   CREATE_USER,
@@ -14,14 +15,22 @@ import {
   updateUser,
   deleteUser,
 } from '../thunk';
-import { IUser, UserListActionTypes } from '../types';
+import { IUser, IUserList, UserListActionTypes } from '../types';
 import jsonData from '../../../../mock/db.json';
 
+import { RootState } from '../..';
+
+type DispatchExts = ThunkDispatch<RootState, undefined, UserListActionTypes>;
+
 const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
-const users:any = jsonData;
-const store = mockStore({ users });
-const baseUrl = 'http://localhost:3004';
+const mockStore = configureMockStore<RootState, DispatchExts>(middlewares);
+const userList:IUserList = {
+  ...initialState,
+  users: jsonData.users,
+};
+
+const store = mockStore();
+const baseUrl:string = 'http://localhost:3004';
 const fakeUser:IUser = {
   username: 'xyz',
   name: 'Foo foo',
@@ -41,19 +50,17 @@ describe('actions', () => {
     moxios.stubRequest(`${baseUrl}/users`, {
       status: 200,
       response: {
-        data: {
-          users,
-        },
+        data: userList.users,
       },
     });
 
     const expectedAction:UserListActionTypes = {
       type: GET_USERS,
-      payload: users,
+      payload: userList.users,
     };
 
     return store.dispatch<any>(getUsers()).then(() => {
-      expect(UserActions.getUsers(users)).toEqual(expectedAction);
+      expect(UserActions.getUsers(userList.users)).toEqual(expectedAction);
     });
   });
 
@@ -93,7 +100,7 @@ describe('actions', () => {
     });
   });
 
-  /* it('should create an action to delete an user', () => {
+  it('should create an action to delete an user', () => {
     moxios.stubRequest(`${baseUrl}/users/123`, {
       status: 200,
       response: { },
@@ -109,5 +116,5 @@ describe('actions', () => {
     return store.dispatch<any>(deleteUser(fakeUser.id)).then(() => {
       expect(UserActions.deleteUser(fakeUser.id)).toEqual(expectedAction);
     });
-  }); */
+  });
 });

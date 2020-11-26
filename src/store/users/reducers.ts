@@ -6,7 +6,7 @@ import {
 } from './types';
 import * as UserActions from './constants';
 
-const initialState: IUserList = {
+export const initialState: IUserList = {
   users: [],
   sort: {
     column: 'name',

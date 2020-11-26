@@ -1,9 +1,8 @@
 import { Action } from 'redux';
 import axios, { AxiosResponse } from 'axios';
-import { ThunkAction } from 'redux-thunk';
 import UserActions from './actions';
-import { RootState } from '..';
-import { ISort, IUser } from './types';
+import { AppThunk } from '..';
+import { IUser } from './types';
 
 const {
   getUsers: getUserActions,
@@ -16,8 +15,7 @@ const {
 
 const URL: string = 'http://localhost:3004';
 
-export const getUsers = ():
-ThunkAction<void, RootState, unknown, Action<string>> => async (dispatch) => {
+export const getUsers = (): AppThunk => async (dispatch) => {
   try {
     const results: AxiosResponse<any> = await axios.get(`${URL}/users`);
     const users: IUser[] = results.data;
@@ -29,8 +27,7 @@ ThunkAction<void, RootState, unknown, Action<string>> => async (dispatch) => {
   }
 };
 
-export const deleteUser = (userId: number):
-ThunkAction<void, RootState, unknown, Action<string>> => async (dispatch) => {
+export const deleteUser = (userId: number): AppThunk => async (dispatch) => {
   try {
     await axios.delete(`${URL}/users/${userId}`);
     dispatch(
@@ -41,8 +38,7 @@ ThunkAction<void, RootState, unknown, Action<string>> => async (dispatch) => {
   }
 };
 
-export const updateUser = (user: IUser):
- ThunkAction<void, RootState, unknown, Action<string>> => async (dispatch) => {
+export const updateUser = (user: IUser): AppThunk => async (dispatch) => {
   try {
     await axios.put(`${URL}/users/${user.id}`, user);
     dispatch(
@@ -53,8 +49,7 @@ export const updateUser = (user: IUser):
   }
 };
 
-export const createUser = (user: IUser):
- ThunkAction<void, RootState, unknown, Action<string>> => async (dispatch) => {
+export const createUser = (user: IUser): AppThunk => async (dispatch) => {
   try {
     const res = await axios.post(`${URL}/users`, user);
     const newUser:IUser = { ...user, id: res.data.id };
@@ -66,8 +61,7 @@ export const createUser = (user: IUser):
   }
 };
 
-export const searchUser = (query: string):
- ThunkAction<void, RootState, unknown, Action<string>> => async (dispatch) => {
+export const searchUser = (query: string): AppThunk => async (dispatch) => {
   try {
     const results: AxiosResponse<any> = await axios.get(`${URL}/users?q=${query}`);
     const users: IUser[] = results.data;
@@ -79,8 +73,7 @@ export const searchUser = (query: string):
   }
 };
 
-export const sortUserBy = (column:string):
- ThunkAction<void, RootState, unknown, Action<string>> => async (dispatch, getState) => {
+export const sortUserBy = (column:string): AppThunk => async (dispatch, getState) => {
   try {
     const sortingOrder = getState().userList.sort.direction === 'ascending' ? 'asc' : 'desc';
     const results: AxiosResponse<any> = await axios.get(`${URL}/users?_sort=${column}&_order=${sortingOrder}`);
