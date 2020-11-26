@@ -2,7 +2,6 @@ import * as React from "react"
 import { IUser } from "../../store/users/types"
 import { Button, Icon, Modal, Form } from 'semantic-ui-react'
 
-
 type Props = {
   onSubmitButtonClicked: (user: IUser) => void
   onCancel: () => void
@@ -10,7 +9,7 @@ type Props = {
   header: string
 }
 
-export const UserForm: React.FC<Props> = ({
+const UserForm: React.FC<Props> = ({
   header,
   user,
   onSubmitButtonClicked,
@@ -37,9 +36,9 @@ export const UserForm: React.FC<Props> = ({
       open={userData !== null}
     >
       <Modal.Header>{header}</Modal.Header>
-      <Modal.Content>
-        <Form onSubmit={handelSubmitButtonClick} >
 
+      <Modal.Content>
+        <Form >
           <Form.Input fluid
             type="text"
             id="username"
@@ -48,7 +47,6 @@ export const UserForm: React.FC<Props> = ({
             placeholder="Username"
             onChange={handleUserData}
           />
-
           <Form.Input fluid
             type="text"
             id="name"
@@ -57,7 +55,6 @@ export const UserForm: React.FC<Props> = ({
             placeholder="First name and last name"
             onChange={handleUserData}
           />
-
           <Form.Input fluid
             type="text"
             id="email"
@@ -69,22 +66,20 @@ export const UserForm: React.FC<Props> = ({
         </Form>
       </Modal.Content>
       <Modal.Actions>
-        <Button primary animated='vertical'>
-          <Button.Content hidden>Save</Button.Content>
-          <Button.Content visible>
-            <Icon name='save' />
-          </Button.Content>
-        </Button>
         <Button onClick={onCancel} animated='vertical'>
           <Button.Content hidden>Cancel</Button.Content>
           <Button.Content visible>
             <Icon name='cancel' />
           </Button.Content>
         </Button>
-
+        <Button onClick={handelSubmitButtonClick} primary animated='vertical'>
+          <Button.Content hidden>Save</Button.Content>
+          <Button.Content visible>
+            <Icon name='save' />
+          </Button.Content>
+        </Button>
       </Modal.Actions>
     </Modal>
-
   )
 }
 

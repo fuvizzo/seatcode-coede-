@@ -7,7 +7,7 @@ import { Icon, Header, Menu, Table, Button, Container } from 'semantic-ui-react'
 import { RootState } from "../../store"
 import UserForm from "./user-form"
 import { IUser } from "../../store/users/types"
-
+import DeleteWarningModal from "./delete-warning-modal"
 
 const connector = connect(
   (userList: RootState) => userList,
@@ -33,6 +33,7 @@ const UserList: React.FC<PropsFromRedux> = ({
 }) => {
   const { users, sort } = userList;
   const [insertModeOn, setInsertModeOn] = React.useState<boolean>(false);
+  const [pendingDeleteUser, setPendingDeleteUser] = React.useState<IUser | any>(null);
 
   React.useEffect(() => {
     getUsers()
@@ -41,7 +42,19 @@ const UserList: React.FC<PropsFromRedux> = ({
   const createHandler = React.useCallback((user) => {
     setInsertModeOn(false);
     createUser(user);
-  }, [createUser]
+  }, [createUser]);
+
+  const deleteHandler = React.useCallback(
+    () => {
+      deleteUser(pendingDeleteUser.id);
+      setPendingDeleteUser(null);
+    },
+    [deleteUser, pendingDeleteUser]
+  );
+
+  const confirmDeletionHandler = React.useCallback(
+    (user: IUser | null) => setPendingDeleteUser(user),
+    [setPendingDeleteUser]
   );
 
   if (insertModeOn) {
@@ -54,10 +67,14 @@ const UserList: React.FC<PropsFromRedux> = ({
   else {
     return (
       <Container>
+        {pendingDeleteUser && <DeleteWarningModal
+          user={pendingDeleteUser}
+          onSubmitButtonClicked={deleteHandler}
+          onCancel={() => confirmDeletionHandler(null)}
+        />}
         <Header textAlign="right">
           <Button primary onClick={() => setInsertModeOn(true)}>Add new user</Button>
         </Header>
-
         <Table sortable celled fixed>
           <Table.Header>
             <Table.Row>
@@ -84,7 +101,8 @@ const UserList: React.FC<PropsFromRedux> = ({
                   key={user.id}
                   user={user}
                   updateUser={updateUser}
-                  removeUser={deleteUser} /></Table.Row>
+                  confirmDeletion={(user) => confirmDeletionHandler(user)} />
+              </Table.Row>
             )}
           </Table.Body>
           <Table.Footer>
@@ -106,11 +124,9 @@ const UserList: React.FC<PropsFromRedux> = ({
             </Table.Row>
           </Table.Footer>
         </Table>
-
       </Container >
     )
   }
-
 }
 
 export default connector(UserList)

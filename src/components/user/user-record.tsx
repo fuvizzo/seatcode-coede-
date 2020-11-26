@@ -5,18 +5,12 @@ import { Table, Icon, Button } from 'semantic-ui-react'
 
 type Props = {
   user: IUser
-  removeUser: (userId: number) => void
+  confirmDeletion: (user: IUser) => void
   updateUser: (user: IUser) => void
 }
 
-const User: React.FC<Props> = ({ user, removeUser, updateUser }) => {
-
+const User: React.FC<Props> = ({ user, confirmDeletion, updateUser }) => {
   const [dataToEdit, setDataToEdit] = React.useState<IUser | null>();
-
-  const deleteHandler = React.useCallback(
-    (userId: number) => removeUser(userId),
-    [removeUser]
-  );
 
   const updateHandler = React.useCallback((user) => {
     setDataToEdit(null);
@@ -38,7 +32,7 @@ const User: React.FC<Props> = ({ user, removeUser, updateUser }) => {
       <Table.Cell>{user.name}</Table.Cell>
       <Table.Cell>{user.email}</Table.Cell>
       <Table.Cell collapsing>
-        <Button primary animated='vertical' onClick={() => deleteHandler(user.id)}>
+        <Button primary animated='vertical' onClick={() => confirmDeletion(user)}>
           <Button.Content hidden>Delete</Button.Content>
           <Button.Content visible>
             <Icon name='user delete' />

@@ -48,7 +48,8 @@ export const updateUser = (user: IUser): ThunkAction<void, RootState, unknown, A
 
 export const createUser = (user: IUser): ThunkAction<void, RootState, unknown, Action<string>> => async dispatch => {
   try {
-    await axios.post(`${URL}/users`, user);
+    const res = await axios.post(`${URL}/users`, user);
+    user.id = res.data.id;
     dispatch(
       createUserAction(user)
     )

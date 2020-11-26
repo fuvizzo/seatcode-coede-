@@ -44,22 +44,31 @@ export function UserListReducer(
         },
         users: _.sortBy(state.users, [action.column]),
       }
-    /*  case UserActions.CREATE_USER:
-       return [...state, action.payload]
-     case UserActions.DELETE_USER:
-       return state.filter(
-         user => user.id !== action.meta.id
-       )
-     case UserActions.UPDATE_USER:
-       return state.map((user, index) => {
-         if (user.id !== action.payload.id) {
-           return user
-         }
-         return {
-           ...user,
-           ...action.payload
-         }
-       }) */
+    case UserActions.CREATE_USER:
+      return {
+        ...state,
+        users: [...state.users, action.payload]
+      }
+    case UserActions.DELETE_USER:
+      return {
+        ...state,
+        users: state.users.filter(
+          user => user.id !== action.meta.id
+        )
+      }
+    case UserActions.UPDATE_USER:
+      return {
+        ...state,
+        users: state.users.map((user) => {
+          if (user.id !== action.payload.id) {
+            return user
+          }
+          return {
+            ...user,
+            ...action.payload
+          }
+        })
+      }
     default:
       return state
   }
