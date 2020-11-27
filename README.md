@@ -44,6 +44,13 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### `Possible improvements`
+- Form validation using Formik and joi
+- Paging
+
+I haven't been using typescript for years. Using javascript I would have spent much less time and I would have provided also those functionalities. 
+Viva la pasta.
+
  
 
 
