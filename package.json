@@ -59,7 +59,8 @@
     "eject": "react-scripts eject",
     "test": "react-scripts test",
     "test:watch": "react-scripts test --watch",
-    "cypress": "cypress open"
+    "cypress": "cypress open",
+    "test:reset-mocks":"node ./mock/reset-mocks.js"
   },
   "eslintConfig": {
     "extends": [
