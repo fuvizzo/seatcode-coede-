@@ -46,6 +46,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### `Possible improvements`
 - Form validation using Formik and joi
+- Using styled components
 - Paging
 
 ### SIDE NOTES
