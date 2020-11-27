@@ -38,7 +38,12 @@ const User: React.FC<Props> = ({ user, confirmDeletion, updateUser }) => {
             <Icon name="user delete" />
           </Button.Content>
         </Button>
-        <Button primary animated="vertical" onClick={() => setEditModeOn(true)}>
+        <Button
+          data-testid="edit-user-btn"
+          primary
+          animated="vertical"
+          onClick={() => setEditModeOn(true)}
+        >
           <Button.Content hidden>Edit</Button.Content>
           <Button.Content visible>
             <Icon name="edit outline" />

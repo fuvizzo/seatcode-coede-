@@ -33,6 +33,7 @@ const UserForm: React.FC<Props> = ({
 
   return (
     <Modal
+      data-testid="user-from-modal"
       onClose={onCancel}
       onOpen={() => userData !== null}
       open={userData !== null}
@@ -87,7 +88,12 @@ const UserForm: React.FC<Props> = ({
             <Icon name="cancel" />
           </Button.Content>
         </Button>
-        <Button onClick={handelSubmitButtonClick} primary animated="vertical">
+        <Button
+          data-testid="save-changes-btn"
+          onClick={handelSubmitButtonClick}
+          primary
+          animated="vertical"
+        >
           <Button.Content hidden>Save</Button.Content>
           <Button.Content visible>
             <Icon name="save" />

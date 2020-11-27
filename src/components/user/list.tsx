@@ -107,7 +107,14 @@ export const UserList: React.FC<PropsFromRedux> = ({
             />
           </Grid.Column>
           <Grid.Column textAlign="right">
-            <Button primary onClick={() => setInsertModeOn(true)}>Add new user</Button>
+            <Button
+              data-testid="new-user-btn"
+              primary
+              onClick={() => setInsertModeOn(true)}
+            >
+              Add new user
+
+            </Button>
           </Grid.Column>
         </Grid.Row>
       </Grid>
