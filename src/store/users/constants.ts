@@ -1,8 +1,6 @@
-export const CREATE_USER = '@@USER/CREATE_USER';
-export const UPDATE_USER = '@@USER/UPDATE_USER';
-export const GET_USERS = '@@USER/GET_USERS';
-export const DELETE_USER = '@@USER/DELETE_USER';
-export const SORT_USER_BY = '@@USER/SORT_USER_BY';
-export const TRIGGER_USER_SEARCH = '@@USER/TRIGGER_USER_SEARCH';
-export const GET_FILTERD_USERS = '@@USER/GET_FILTERD_USERS';
-export const LOADING = '@@USER/LOADING';
+export const CREATE_USER = '@@USER_LIST/CREATE_USER';
+export const UPDATE_USER = '@@USER_LIST/UPDATE_USER';
+export const GET_USERS = '@@USER_LIST/GET_USERS';
+export const DELETE_USER = '@@USER_LIST/DELETE_USER';
+export const SORT_USER_BY = '@@USER_LIST/SORT_USER_BY';
+export const GET_FILTERED_USERS = '@@USER_LIST/GET_FILTERED_USERS';

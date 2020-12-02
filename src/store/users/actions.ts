@@ -11,10 +11,10 @@ const createUser = (newUser: IUser): UserListActionTypes => ({
   payload: newUser,
 });
 
-const deleteUser = (id: number): UserListActionTypes => ({
+const deleteUser = (userId: number): UserListActionTypes => ({
   type: UserActions.DELETE_USER,
-  meta: {
-    id,
+  payload: {
+    userId,
   },
 });
 
@@ -23,36 +23,22 @@ const updateUser = (user: IUser): UserListActionTypes => ({
   payload: user,
 });
 
-const sortUserBy = (column:string, results:IUser[]): UserListActionTypes => ({
+const sortUserBy = (column: string, results: IUser[]): UserListActionTypes => ({
   type: UserActions.SORT_USER_BY,
   column,
   payload: results,
 });
 
-const getFilteredUsers = (results:IUser[]): UserListActionTypes => ({
-  type: UserActions.GET_FILTERD_USERS,
+const getFilteredUsers = (results: IUser[]): UserListActionTypes => ({
+  type: UserActions.GET_FILTERED_USERS,
   payload: results,
 });
 
-const triggerUserSearch = (query: string): UserListActionTypes => ({
-  type: UserActions.TRIGGER_USER_SEARCH,
-  query,
-});
-
-const setLoading = (): UserListActionTypes => ({
-  type: UserActions.LOADING,
-});
-
-const crudUserActions = {
+export default {
   getUsers,
   createUser,
   updateUser,
   deleteUser,
   sortUserBy,
-  setLoading,
   getFilteredUsers,
 };
-
-export const uiActions = { triggerUserSearch };
-
-export default crudUserActions;

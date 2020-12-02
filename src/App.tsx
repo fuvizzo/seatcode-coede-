@@ -1,17 +1,41 @@
 import React from 'react';
+
+import { connect, ConnectedProps } from 'react-redux';
 import './App.css';
-import { Container } from 'semantic-ui-react';
+import {
+  Container, Dimmer, Loader, Segment,
+} from 'semantic-ui-react';
 import UserList from './components/user/list';
 
-function App() {
+import * as currentUserActions from './store/current-user/thunk';
+import { RootState } from './store';
+
+const connector = connect(
+  (state: RootState) => ({
+    loading: state.ui.loading,
+    currentUser: state.currentUser,
+  }),
+  currentUserActions,
+);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+const App: React.FC<PropsFromRedux> = (props) => {
+  const { getCurrentUser, loading, currentUser } = props;
+
+  React.useEffect(() => {
+    getCurrentUser();
+  }, [getCurrentUser]);
+
   return (
     <div className="App">
       <Container>
-        <h1>Display Users Account Details</h1>
+        {loading && (<Loader active inline>Loading</Loader>)}
+        {currentUser.name !== '' && (`Current user: ${currentUser.name} (userId: ${currentUser.id})`)}
         <UserList />
       </Container>
     </div>
   );
-}
+};
 
-export default App;
+export default connector(App);

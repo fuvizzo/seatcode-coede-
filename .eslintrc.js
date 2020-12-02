@@ -27,6 +27,8 @@ module.exports = {
     'enzyme',
   ],
   rules: {
+    'linebreak-style': 'off',
+    'no-param-reassign': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.ts'] }],
     'react/prop-types': 'off',
     'no-use-before-define': 'off',

@@ -6,21 +6,23 @@ import {
   Button,
   Container,
   Grid,
-  Segment,
-  Dimmer,
-  Loader,
 } from 'semantic-ui-react';
 import User from './user-record';
-import * as crudUserActions from '../../store/users/thunk';
-import { uiActions } from '../../store/users/actions';
-import { RootState } from '../../store';
+import * as userListActions from '../../store/users/thunk';
+import uiActions from '../../store/ui/actions';
+
 import UserForm from './user-form';
 import { IUser } from '../../store/users/types';
 import DeleteWarningModal from './delete-warning-modal';
+import { RootState } from '../../store';
 
 const connector = connect(
-  (userList: RootState) => userList,
-  { ...crudUserActions, ...uiActions },
+  (state: RootState) => ({
+    ...state.userList,
+    ...state.ui.search,
+    currentUserId: state.currentUser.id,
+  }),
+  { ...userListActions, ...uiActions },
 );
 
 const newUser: IUser = {
@@ -29,51 +31,62 @@ const newUser: IUser = {
   email: '',
   name: '',
   age: 0,
+  enabled: false,
 };
 
 type PropsFromRedux = ConnectedProps<typeof connector>
 
-export const UserList: React.FC<PropsFromRedux> = ({
-  userList, ...actions
-}) => {
+export const UserListComponent: React.FC<PropsFromRedux> = (props) => {
   const {
-    users, sort, loading, search: { query },
-  } = userList;
+    getUsers,
+    getFilteredUsers,
+    triggerUserSearch,
+    updateUser,
+    createUser,
+    deleteUser,
+    sortUserBy,
+    currentUserId,
+    users,
+    sort,
+    query,
+  } = props;
+
   const [insertModeOn, setInsertModeOn] = React.useState<boolean>(false);
   const [pendingDeleteUser, setPendingDeleteUser] = React.useState<IUser | any>(null);
   const timeoutRef = React.useRef<any>();
-  React.useEffect(() => {
-    actions.getUsers();
-  }, [actions.getUsers]);
 
-  const createHandler = React.useCallback((user) => {
+  React.useEffect(() => () => {
+    clearTimeout(timeoutRef.current);
+  }, []);
+
+  React.useEffect(() => {
+    getUsers();
+  }, []);
+
+  const createHandler = React.useCallback((user: IUser) => {
     setInsertModeOn(false);
-    actions.createUser(user);
-  }, [actions.createUser]);
+    createUser(user);
+  }, []);
 
   const deleteHandler = React.useCallback(
     () => {
-      actions.deleteUser(pendingDeleteUser.id);
+      deleteUser(pendingDeleteUser.id);
       setPendingDeleteUser(null);
     },
-    [actions.deleteUser, pendingDeleteUser],
+    [pendingDeleteUser],
   );
 
   const confirmDeletionHandler = React.useCallback(
     (user: IUser | null) => setPendingDeleteUser(user),
-    [setPendingDeleteUser],
+    [],
   );
 
   const handleSearchChange = React.useCallback((e, data) => {
     clearTimeout(timeoutRef.current);
-    actions.triggerUserSearch(data.value);
+    triggerUserSearch(data.value);
     timeoutRef.current = setTimeout(() => {
-      actions.getFilteredUsers();
+      getFilteredUsers();
     }, 300);
-  }, []);
-
-  React.useEffect(() => () => {
-    clearTimeout(timeoutRef.current);
   }, []);
 
   if (insertModeOn) {
@@ -89,12 +102,13 @@ export const UserList: React.FC<PropsFromRedux> = ({
 
   return (
     <Container>
+      <h1>Display Users Account Details</h1>
       {pendingDeleteUser && (
-      <DeleteWarningModal
-        user={pendingDeleteUser}
-        onSubmitButtonClicked={deleteHandler}
-        onCancel={() => confirmDeletionHandler(null)}
-      />
+        <DeleteWarningModal
+          user={pendingDeleteUser}
+          onSubmitButtonClicked={deleteHandler}
+          onCancel={() => confirmDeletionHandler(null)}
+        />
       )}
       <Grid divided="vertically" padded="vertically">
         <Grid.Row columns={2}>
@@ -118,64 +132,56 @@ export const UserList: React.FC<PropsFromRedux> = ({
           </Grid.Column>
         </Grid.Row>
       </Grid>
-      {loading ? (
-        <Segment style={{ minHeight: 600 }}>
-          <Dimmer active inverted>
-            <Loader inverted>Loading</Loader>
-          </Dimmer>
-        </Segment>
-      )
-        : (
-          <Table data-testid="table" sortable celled fixed>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell
-                  sorted={sort.column === 'username' ? sort.direction : undefined}
-                  onClick={() => actions.sortUserBy('username')}
-                >
-                  Nickname
-                </Table.HeaderCell>
-                <Table.HeaderCell
-                  sorted={sort.column === 'name' ? sort.direction : undefined}
-                  onClick={() => actions.sortUserBy('name')}
-                >
-                  Name
-                </Table.HeaderCell>
-                <Table.HeaderCell
-                  sorted={sort.column === 'email' ? sort.direction : undefined}
-                  onClick={() => actions.sortUserBy('email')}
-                >
-                  Email
-                </Table.HeaderCell>
-                <Table.HeaderCell
-                  style={{ width: 100 }}
-                  sorted={sort.column === 'age' ? sort.direction : undefined}
-                  onClick={() => actions.sortUserBy('age')}
-                >
-                  Age
-                </Table.HeaderCell>
-                <Table.HeaderCell style={{ width: 160, textAlign: 'center' }}>Actions</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {users.map((user) => (
-                <Table.Row
-                  key={user.id}
-                  data-testid="table-row"
-                >
-                  <User
-                    user={user}
-                    updateUser={actions.updateUser}
-                    confirmDeletion={() => confirmDeletionHandler(user)}
-                  />
-                </Table.Row>
-              ))}
-            </Table.Body>
-            <Table.Footer />
-          </Table>
-        )}
+      <Table data-testid="table" sortable celled fixed>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell
+              sorted={sort.column === 'username' ? sort.direction : undefined}
+              onClick={() => sortUserBy('username')}
+            >
+              Nickname
+            </Table.HeaderCell>
+            <Table.HeaderCell
+              sorted={sort.column === 'name' ? sort.direction : undefined}
+              onClick={() => sortUserBy('name')}
+            >
+              Name
+            </Table.HeaderCell>
+            <Table.HeaderCell
+              sorted={sort.column === 'email' ? sort.direction : undefined}
+              onClick={() => sortUserBy('email')}
+            >
+              Email
+            </Table.HeaderCell>
+            <Table.HeaderCell
+              style={{ width: 100 }}
+              sorted={sort.column === 'age' ? sort.direction : undefined}
+              onClick={() => sortUserBy('age')}
+            >
+              Age
+            </Table.HeaderCell>
+            <Table.HeaderCell style={{ textAlign: 'center' }}>Actions</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {users.map((user: IUser) => (
+            <Table.Row
+              key={user.id}
+              data-testid="table-row"
+            >
+              <User
+                currentUserId={currentUserId}
+                user={user}
+                updateUser={updateUser}
+                confirmDeletion={confirmDeletionHandler}
+              />
+            </Table.Row>
+          ))}
+        </Table.Body>
+        <Table.Footer />
+      </Table>
     </Container>
   );
 };
 
-export default connector(UserList);
+export default connector(UserListComponent);

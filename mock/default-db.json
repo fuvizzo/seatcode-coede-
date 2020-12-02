@@ -1,81 +1,89 @@
 {
+  "currentUser": {
+    "id": 1254,
+    "username": "Mark Paine"
+  },
   "users": [
     {
       "id": 1,
       "name": "Bret Powella",
       "username": "Gioag_affa",
       "email": "Xbvc@foo.foo",
-      "age": 34
+      "age": "32",
+      "enabled": true,
+      "supervisedBy": 1254
     },
     {
       "id": 2,
       "name": "Ervin Howell",
       "username": "Antonette",
       "email": "Shanna@melissa.tv",
-      "age": 22
+      "age": 22,
+      "enabled": true
     },
     {
       "id": 3,
       "name": "Clementine Bauch",
       "username": "Samantha",
       "email": "Nathan@yesenia.net",
-      "age": 31
+      "age": 31,
+      "enabled": true
     },
     {
       "id": 4,
       "name": "Patricia Lebsack",
       "username": "Karianne",
       "email": "Julianne.OConner@kory.org",
-      "age": 55
+      "age": 55,
+      "enabled": true
     },
     {
       "id": 5,
       "name": "Chelsey Dietrich",
       "username": "Kamren",
       "email": "Lucio_Hettinger@annie.ca",
-      "age": 70
+      "age": 70,
+      "enabled": true
     },
     {
       "id": 6,
       "name": "Mrs. Dennis Schulist",
       "username": "Leopoldo_Corkery",
       "email": "Karley_Dach@jasper.info",
-      "age": 18
+      "age": 18,
+      "enabled": true
     },
     {
       "id": 7,
       "name": "Kurtis Weissnat",
       "username": "Elwyn.Skiles",
       "email": "Telly.Hoeger@billy.biz",
-      "age": 45
+      "age": 45,
+      "enabled": true
     },
     {
       "id": 8,
       "name": "Nicholas Runolfsdottir V",
       "username": "Maxime_Nienow",
       "email": "Sherwood@rosamond.me",
-      "age": 56
+      "age": 56,
+      "enabled": true
     },
     {
       "id": 9,
       "name": "Glenna Reichert",
       "username": "Delphine",
       "email": "Chaim_McDermott@dana.io",
-      "age": 23
+      "age": 23,
+      "enabled": true
     },
     {
       "id": 10,
       "name": "Clementina DuBuque",
       "username": "Moriah.Stanton",
       "email": "Rey.Padberg@karina.biz",
-      "age": 39
-    },
-    {
-      "id": 11,
-      "username": "Fuvix1977",
-      "email": "Fulvio.cusimano@gmail.com",
-      "name": "Fulvio Cusimano",
-      "age": 43
+      "age": 39,
+      "enabled": true
     }
   ]
 }

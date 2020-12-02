@@ -1,3 +1,42 @@
 {
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "version": "0.2.0",
+  "configurations": [{
+    "type": "node",
+    "request": "launch",
+    "name": "Jest All",
+    "program": "${workspaceFolder}/app/node_modules/.bin/jest",
+    "console": "integratedTerminal",
+    "internalConsoleOptions": "neverOpen",
+    "disableOptimisticBPs": true,
+    "cwd": "${workspaceFolder}/app",
+    "windows": {
+      "program": "${workspaceFolder}/app/node_modules/jest/bin/jest"
+    }
+  },
+  {
+    "type": "node",
+    "request": "launch",
+    "name": "Jest App Current File",
+    "program": "${workspaceFolder}/app/node_modules/.bin/jest",
+    "args": [
+      "${fileBasenameNoExtension}",
+      "--detectOpenHandles",
+      " --coverage"
+    ],
+    "console": "integratedTerminal",
+    "internalConsoleOptions": "neverOpen",
+    "disableOptimisticBPs": true,
+    "cwd": "${workspaceFolder}/app",
+    "windows": {
+      "program": "${workspaceFolder}/app/node_modules/jest/bin/jest"
+    },
+    "env": {
+      "NODE_ENV": "development",
+      "REDIS_CACHE_EXPIRATION_PERIOD": "10",
+      "ACCESS_TOKEN_LIFETIME": "360",
+      "CLIENT_ID": "292085223830.apps.wefox.com",
+      "CLIENT_SECRET": "GBAyfVL7YWtP6gudLIjbRZV_N0dW4f3xETiIxqtokEAZ6FAsBtgyIq0MpU1uQ7J08xOTO2zwP0OuO3pMVAUTid"
+    }
+  }]
 }

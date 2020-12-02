@@ -5,17 +5,28 @@ import UserForm from './user-form';
 
 type Props = {
   user: IUser
-  confirmDeletion: () => void
+  currentUserId:number
+  confirmDeletion: (user: IUser) => void
   updateUser: (user: IUser) => void
 }
 
-const User: React.FC<Props> = ({ user, confirmDeletion, updateUser }) => {
+const User: React.FC<Props> = ({
+  user, currentUserId, confirmDeletion, updateUser,
+}) => {
   const [editModeOn, setEditModeOn] = React.useState<boolean>(false);
 
   const updateHandler = React.useCallback((editedUserData:IUser) => {
     updateUser(editedUserData);
     setEditModeOn(false);
-  }, [updateUser]);
+  }, []);
+
+  const superviseHandler = React.useCallback(() => {
+    updateUser({
+      ...user,
+      supervisedBy: user.supervisedBy
+        ? undefined : currentUserId,
+    });
+  }, [currentUserId, user.supervisedBy]);
 
   return (
     <>
@@ -32,7 +43,12 @@ const User: React.FC<Props> = ({ user, confirmDeletion, updateUser }) => {
       <Table.Cell>{user.email}</Table.Cell>
       <Table.Cell>{user.age}</Table.Cell>
       <Table.Cell textAlign="center">
-        <Button primary animated="vertical" onClick={confirmDeletion}>
+        <Button
+          primary
+          size="small"
+          animated="vertical"
+          onClick={() => confirmDeletion(user)}
+        >
           <Button.Content hidden>Delete</Button.Content>
           <Button.Content visible>
             <Icon name="user delete" />
@@ -41,6 +57,7 @@ const User: React.FC<Props> = ({ user, confirmDeletion, updateUser }) => {
         <Button
           data-testid="edit-user-btn"
           primary
+          size="small"
           animated="vertical"
           onClick={() => setEditModeOn(true)}
         >
@@ -49,9 +66,17 @@ const User: React.FC<Props> = ({ user, confirmDeletion, updateUser }) => {
             <Icon name="edit outline" />
           </Button.Content>
         </Button>
+        <Button
+          data-testid="supervise-user-btn"
+          primary
+          size="small"
+          onClick={superviseHandler}
+        >
+          <Button.Content>{user.supervisedBy ? 'Supervised' : 'Supervise'}</Button.Content>
+        </Button>
       </Table.Cell>
     </>
   );
 };
 
-export default User;
+export default React.memo(User);

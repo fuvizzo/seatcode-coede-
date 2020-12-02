@@ -5,7 +5,9 @@ export interface IUser {
   name: string
   username: string
   email: string
-  age:number
+  age: number
+  enabled: boolean
+  supervisedBy?: number
 }
 
 export interface ISort {
@@ -13,15 +15,9 @@ export interface ISort {
   direction: 'ascending' | 'descending' | undefined
 }
 
-export interface ISearch {
-  query:string
-}
-
 export interface IUserList {
   users: IUser[]
   sort: ISort
-  search:ISearch
-  loading: boolean
 }
 
 interface GetUsers {
@@ -36,8 +32,8 @@ interface CreateUser {
 
 interface DeleteUser {
   type: typeof UserActions.DELETE_USER
-  meta: {
-    id: number
+  payload: {
+    userId: number
   }
 }
 
@@ -48,29 +44,18 @@ interface UpdateUser {
 
 interface SortUserBy {
   type: typeof UserActions.SORT_USER_BY
-  column:string
-  payload:IUser[]
+  column: string
+  payload: IUser[]
 }
 
 interface GetFilterdUsers {
-  type: typeof UserActions.GET_FILTERD_USERS
-  payload:IUser[]
-}
-
-interface TriggerUserSearch {
-  type: typeof UserActions.TRIGGER_USER_SEARCH
-  query:string
-}
-
-interface ToggleLoader {
-  type: typeof UserActions.LOADING
+  type: typeof UserActions.GET_FILTERED_USERS
+  payload: IUser[]
 }
 
 export type UserListActionTypes = GetUsers
-| CreateUser
-| DeleteUser
-| UpdateUser
-| SortUserBy
-| GetFilterdUsers
-| TriggerUserSearch
-| ToggleLoader;
+  | CreateUser
+  | DeleteUser
+  | UpdateUser
+  | SortUserBy
+  | GetFilterdUsers;

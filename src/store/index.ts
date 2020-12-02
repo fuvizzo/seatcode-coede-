@@ -4,7 +4,9 @@ import {
 
 import thunk, { ThunkAction } from 'redux-thunk';
 
-import UserListReducer from './users/reducers';
+import UserListReducer from './users/reducer';
+import CurrentUserReducer from './current-user/reducer';
+import UIReducer from './ui/reducer';
 
 declare global {
   // eslint-disable-next-line no-unused-vars
@@ -16,6 +18,8 @@ const storeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
   userList: UserListReducer,
+  currentUser: CurrentUserReducer,
+  ui: UIReducer,
 });
 
 const Store = createStore(

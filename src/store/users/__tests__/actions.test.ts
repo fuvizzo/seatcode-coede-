@@ -2,7 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import moxios from 'moxios';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import UserActions from '../actions';
-import { initialState } from '../reducers';
+import { initialState } from '../reducer';
 import {
   GET_USERS,
   CREATE_USER,
@@ -37,6 +37,7 @@ const fakeUser:IUser = {
   email: 'foo@foo.foo',
   id: 123,
   age: 30,
+  enabled: false,
 };
 
 describe('actions', () => {
@@ -109,9 +110,7 @@ describe('actions', () => {
 
     const expectedAction:UserListActionTypes = {
       type: DELETE_USER,
-      meta: {
-        id: fakeUser.id,
-      },
+      payload: { userId: fakeUser.id },
     };
 
     return store.dispatch<any>(deleteUser(fakeUser.id)).then(() => {
