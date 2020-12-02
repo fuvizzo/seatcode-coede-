@@ -1,5 +1,7 @@
 import React from 'react';
-
+import {
+  useParams,
+} from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 import './App.css';
 import {
@@ -22,10 +24,13 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 
 const App: React.FC<PropsFromRedux> = (props) => {
   const { getCurrentUser, loading, currentUser } = props;
+  const { userId } = useParams<Record<string, string | undefined>>();
 
   React.useEffect(() => {
-    getCurrentUser();
-  }, [getCurrentUser]);
+    if (userId) {
+      getCurrentUser(Number(userId));
+    }
+  }, [userId]);
 
   return (
     <div className="App">

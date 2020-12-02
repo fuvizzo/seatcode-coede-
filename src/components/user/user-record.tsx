@@ -5,38 +5,39 @@ import UserForm from './user-form';
 
 type Props = {
   user: IUser
-  currentUserId:number
+  currentUserId: number
   confirmDeletion: (user: IUser) => void
   updateUser: (user: IUser) => void
+  toggleSupervisedBy: (userId: number) => void
 }
 
 const User: React.FC<Props> = ({
-  user, currentUserId, confirmDeletion, updateUser,
+  user,
+  currentUserId,
+  confirmDeletion,
+  updateUser,
+  toggleSupervisedBy,
 }) => {
   const [editModeOn, setEditModeOn] = React.useState<boolean>(false);
 
-  const updateHandler = React.useCallback((editedUserData:IUser) => {
+  const updateHandler = React.useCallback((editedUserData: IUser) => {
     updateUser(editedUserData);
     setEditModeOn(false);
   }, []);
 
   const superviseHandler = React.useCallback(() => {
-    updateUser({
-      ...user,
-      supervisedBy: user.supervisedBy
-        ? undefined : currentUserId,
-    });
-  }, [currentUserId, user.supervisedBy]);
+    toggleSupervisedBy(user.id);
+  }, [user.supervisedBy]);
 
   return (
     <>
       {editModeOn && (
-      <UserForm
-        header="Edit user"
-        user={{ ...user }}
-        onCancel={() => setEditModeOn(false)}
-        onSubmitButtonClicked={updateHandler}
-      />
+        <UserForm
+          header="Edit user"
+          user={{ ...user }}
+          onCancel={() => setEditModeOn(false)}
+          onSubmitButtonClicked={updateHandler}
+        />
       )}
       <Table.Cell>{user.username}</Table.Cell>
       <Table.Cell>{user.name}</Table.Cell>
@@ -70,6 +71,7 @@ const User: React.FC<Props> = ({
           data-testid="supervise-user-btn"
           primary
           size="small"
+          disabled={user.supervisedBy !== undefined && user.supervisedBy !== currentUserId}
           onClick={superviseHandler}
         >
           <Button.Content>{user.supervisedBy ? 'Supervised' : 'Supervise'}</Button.Content>

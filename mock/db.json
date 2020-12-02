@@ -1,8 +1,14 @@
 {
-  "currentUser": {
-    "id": 1254,
-    "name": "Mark Paine"
-  },
+  "supervisors": [
+    {
+      "id": 1254,
+      "name": "Mark Paine"
+    },
+    {
+      "id": 458,
+      "name": "John Taylor"
+    }
+  ],
   "users": [
     {
       "id": 1,
@@ -18,7 +24,8 @@
       "username": "Samantha",
       "email": "Nathan@yesenia.net",
       "age": 31,
-      "enabled": true
+      "enabled": true,
+      "supervisedBy": 1254
     }
   ]
 }

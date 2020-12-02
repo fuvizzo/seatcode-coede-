@@ -42,6 +42,7 @@ export const UserListComponent: React.FC<PropsFromRedux> = (props) => {
     getFilteredUsers,
     triggerUserSearch,
     updateUser,
+    toggleSupervisedBy,
     createUser,
     deleteUser,
     sortUserBy,
@@ -173,6 +174,7 @@ export const UserListComponent: React.FC<PropsFromRedux> = (props) => {
                 currentUserId={currentUserId}
                 user={user}
                 updateUser={updateUser}
+                toggleSupervisedBy={toggleSupervisedBy}
                 confirmDeletion={confirmDeletionHandler}
               />
             </Table.Row>

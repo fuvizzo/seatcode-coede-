@@ -5,6 +5,7 @@ import {
   IUserList,
   UserListActionTypes,
 } from './types';
+
 import * as UserActions from './constants';
 
 export const initialState: IUserList = {
@@ -42,6 +43,19 @@ const UserListReducer: Reducer<IUserList, UserListActionTypes> = produce(
       case UserActions.UPDATE_USER: {
         const index = draft.users.findIndex((user) => user.id === action.payload.id);
         if (index !== -1) draft.users[index] = action.payload;
+        break;
+      }
+      case UserActions.TOGGLE_SUPERVISED_BY: {
+        const index = draft.users.findIndex((user) => user.id === action.payload.userId);
+        if (index !== -1) {
+          const user = draft.users[index];
+          const supervisedBy = user.supervisedBy === action.payload.currentUserId
+            ? undefined
+            : user.supervisedBy;
+          user.supervisedBy = user.supervisedBy === undefined
+            ? action.payload.currentUserId
+            : supervisedBy;
+        }
         break;
       }
     }

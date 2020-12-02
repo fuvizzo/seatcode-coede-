@@ -53,9 +53,18 @@ interface GetFilterdUsers {
   payload: IUser[]
 }
 
+interface ToggleSupervisedBy {
+  type: typeof UserActions.TOGGLE_SUPERVISED_BY
+  payload: {
+    currentUserId:number
+    userId:number
+  }
+}
+
 export type UserListActionTypes = GetUsers
   | CreateUser
   | DeleteUser
   | UpdateUser
   | SortUserBy
+  | ToggleSupervisedBy
   | GetFilterdUsers;

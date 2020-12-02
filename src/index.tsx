@@ -1,5 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+} from 'react-router-dom';
 import './index.css';
 import { Provider } from 'react-redux';
 import App from './App';
@@ -9,7 +16,27 @@ import 'semantic-ui-css/semantic.min.css';
 
 ReactDOM.render(
   <Provider store={Store}>
-    <App />
+    <Router>
+      <div>
+        <h2>Supervisors</h2>
+
+        <ul>
+          <li>
+            <Link to="/1254">Mark Paine</Link>
+          </li>
+          <li>
+            <Link to="/458">John Taylor</Link>
+          </li>
+        </ul>
+
+        <Switch>
+          <Route path="/:userId">
+            <App />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+
   </Provider>,
   document.getElementById('root'),
 );

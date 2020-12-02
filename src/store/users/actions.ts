@@ -34,6 +34,14 @@ const getFilteredUsers = (results: IUser[]): UserListActionTypes => ({
   payload: results,
 });
 
+const toggleSupervisedBy = (currentUserId: number, userId: number): UserListActionTypes => ({
+  type: UserActions.TOGGLE_SUPERVISED_BY,
+  payload: {
+    currentUserId,
+    userId,
+  },
+});
+
 export default {
   getUsers,
   createUser,
@@ -41,4 +49,5 @@ export default {
   deleteUser,
   sortUserBy,
   getFilteredUsers,
+  toggleSupervisedBy,
 };
