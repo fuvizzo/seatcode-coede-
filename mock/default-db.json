@@ -1,8 +1,14 @@
 {
-  "currentUser": {
-    "id": 1254,
-    "username": "Mark Paine"
-  },
+  "supervisors": [
+    {
+      "id": 1254,
+      "name": "Mark Paine"
+    },
+    {
+      "id": 458,
+      "name": "John Taylor"
+    }
+  ],
   "users": [
     {
       "id": 1,
