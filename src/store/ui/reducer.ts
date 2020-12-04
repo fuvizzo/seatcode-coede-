@@ -12,6 +12,7 @@ export const initialState: IUI = {
   search: {
     query: '',
   },
+  error: null,
 };
 
 const UIReducer: Reducer<IUI, UIActionTypes> = produce(
@@ -26,6 +27,9 @@ const UIReducer: Reducer<IUI, UIActionTypes> = produce(
       case UIActions.TRIGGER_USER_SEARCH:
         draft.loading = true;
         draft.search = { query: action.payload.query };
+        break;
+      case UIActions.SET_ERROR:
+        draft.error = action.payload.message;
         break;
     }
   }, initialState,

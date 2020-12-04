@@ -11,14 +11,23 @@ interface TriggerUserSearch {
   }
 }
 
+interface SetError {
+  type: typeof UIActions.SET_ERROR
+  payload: {
+    message: string
+  }
+}
+
 export interface ISearch {
   query: string
 }
 
 export interface IUI {
   loading: boolean
-  search :ISearch
+  search: ISearch
+  error: String | null
 }
 
 export type UIActionTypes = TriggerUserSearch
-| ToggleLoadingSpinner;
+  | ToggleLoadingSpinner
+  | SetError;

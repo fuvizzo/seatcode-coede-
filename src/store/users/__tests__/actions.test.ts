@@ -40,7 +40,7 @@ const fakeUser:IUser = {
   enabled: false,
 };
 
-describe('actions', () => {
+describe('User list actions', () => {
   beforeEach(() => {
     moxios.install();
   });

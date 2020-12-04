@@ -8,8 +8,8 @@ const URL: string = 'http://localhost:3004';
 
 const getUsers = (): AppThunk => async (dispatch) => {
   buildRequestAndDispatchAction(async () => {
-    const results: AxiosResponse<any> = await axios.get(`${URL}/users`);
-    const users: IUser[] = results.data;
+    const response: AxiosResponse<any> = await axios.get(`${URL}/users`);
+    const users: IUser[] = response.data;
     dispatch(UserListActions.getUsers(users));
   }, dispatch);
 };

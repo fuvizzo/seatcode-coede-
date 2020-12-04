@@ -10,7 +10,13 @@ const triggerUserSearch = (query: string): UIActionTypes => ({
   payload: { query },
 });
 
+const setError = (message: string): UIActionTypes => ({
+  type: UIActions.SET_ERROR,
+  payload: { message },
+});
+
 export default {
   triggerUserSearch,
   toggleLoadingSpinner,
+  setError,
 };

@@ -10,10 +10,10 @@ import { IUI, UIActionTypes } from '../types';
 }; */
 
 describe('UI reducer', () => {
-  describe('should handle LOADING', () => {
-    it('set the loader', () => {
+  describe('should handle TOGGLE_LOADING_SPINNER', () => {
+    it('toggles the loading spinner on true state', () => {
       const action: UIActionTypes = {
-        type: UserActions.LOADING,
+        type: UserActions.TOGGLE_LOADING_SPINNER,
       };
 
       expect(
@@ -25,6 +25,27 @@ describe('UI reducer', () => {
       expect(
         initialState.loading,
       ).toEqual(false);
+    });
+  });
+
+  describe('should handle SET_ERROR', () => {
+    it('set the error', () => {
+      const action: UIActionTypes = {
+        type: UserActions.SET_ERROR,
+        payload: {
+          message: 'Something went wrong',
+        },
+      };
+
+      expect(
+        reducer(initialState, action).error,
+      ).toEqual(action.payload.message);
+    });
+
+    it('doesn\'t modifiy the orginal state', () => {
+      expect(
+        initialState.error,
+      ).toEqual(null);
     });
   });
 });
