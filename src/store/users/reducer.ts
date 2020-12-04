@@ -42,7 +42,9 @@ const UserListReducer: Reducer<IUserList, UserListActionTypes> = produce(
         break;
       case UserActions.UPDATE_USER: {
         const index = draft.users.findIndex((user) => user.id === action.payload.id);
-        if (index !== -1) draft.users[index] = action.payload;
+        if (index !== -1) {
+          draft.users[index] = action.payload;
+        }
         break;
       }
       case UserActions.TOGGLE_SUPERVISED_BY: {

@@ -16,7 +16,8 @@
       "username": "Gioag_affa",
       "email": "Xbvc@foo.foo",
       "age": "32",
-      "enabled": true
+      "enabled": true,
+      "supervisedBy": 458
     },
     {
       "id": 3,
@@ -25,7 +26,7 @@
       "email": "Nathan@yesenia.net",
       "age": 31,
       "enabled": true,
-      "supervisedBy": 458
+      "supervisedBy": 1254
     }
   ]
 }
