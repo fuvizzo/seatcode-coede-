@@ -1,6 +1,8 @@
 /* eslint-disable default-case */
-import produce from 'immer';
+import { Patch, produce, produceWithPatches } from 'immer';
+
 import { Reducer } from 'redux';
+import { Interface } from 'readline';
 import {
   IUserList,
   UserListActionTypes,
@@ -16,52 +18,72 @@ export const initialState: IUserList = {
   },
 };
 
-const UserListReducer: Reducer<IUserList, UserListActionTypes> = produce(
-  (draft: IUserList, action: UserListActionTypes): void => {
-    switch (action.type) {
-      case UserActions.GET_USERS:
-        draft.users = action.payload;
-        break;
-      case UserActions.SORT_USER_BY:
-        draft.sort = {
-          column: action.column,
-          direction: draft.sort.direction === 'ascending' ? 'descending' : 'ascending',
-        };
-        draft.users = action.payload;
-        break;
-      case UserActions.GET_FILTERED_USERS:
-        draft.users = action.payload;
-        break;
-      case UserActions.CREATE_USER:
-        draft.users.push(action.payload);
-        break;
-      case UserActions.DELETE_USER:
-        draft.users = draft.users.filter(
-          (user) => user.id !== action.payload.userId,
-        );
-        break;
-      case UserActions.UPDATE_USER: {
-        const index = draft.users.findIndex((user) => user.id === action.payload.id);
-        if (index !== -1) {
-          draft.users[index] = action.payload;
-        }
-        break;
+const recipe = (draft: IUserList, action: UserListActionTypes): void => {
+  switch (action.type) {
+    case UserActions.GET_USERS:
+      draft.users = action.payload;
+      break;
+    case UserActions.SORT_USER_BY:
+      draft.sort = {
+        column: action.column,
+        direction: draft.sort.direction === 'ascending' ? 'descending' : 'ascending',
+      };
+      draft.users = action.payload;
+      break;
+    case UserActions.GET_FILTERED_USERS:
+      draft.users = action.payload;
+      break;
+    case UserActions.CREATE_USER:
+      draft.users.push(action.payload);
+      break;
+    case UserActions.DELETE_USER:
+      draft.users = draft.users.filter(
+        (user) => user.id !== action.payload.userId,
+      );
+      break;
+    case UserActions.UPDATE_USER: {
+      const index = draft.users.findIndex((user) => user.id === action.payload.id);
+      if (index !== -1) {
+        draft.users[index] = action.payload;
       }
-      case UserActions.TOGGLE_SUPERVISED_BY: {
-        const index = draft.users.findIndex((user) => user.id === action.payload.userId);
-        if (index !== -1) {
-          const user = draft.users[index];
-          const supervisedBy = user.supervisedBy === action.payload.currentUserId
-            ? undefined
-            : user.supervisedBy;
-          user.supervisedBy = user.supervisedBy === undefined
-            ? action.payload.currentUserId
-            : supervisedBy;
-        }
-        break;
-      }
+      break;
     }
-  }, initialState,
+    case UserActions.TOGGLE_SUPERVISED_BY: {
+      const index = draft.users.findIndex((user) => user.id === action.payload.userId);
+      if (index !== -1) {
+        const user = draft.users[index];
+        const supervisedBy = user.supervisedBy === action.payload.currentUserId
+          ? undefined
+          : user.supervisedBy;
+        user.supervisedBy = user.supervisedBy === undefined
+          ? action.payload.currentUserId
+          : supervisedBy;
+      }
+      break;
+    }
+  }
+};
+
+const UserListReducer: Reducer<IUserList, UserListActionTypes> = produce(
+  recipe,
+  initialState,
 );
+
+type PatchedReducer<T> = (state: T, action:UserListActionTypes
+) => Reducer<T, UserListActionTypes>;
+
+export const PatchesUserListReducer: PatchedReducer<IUserList> = (
+  state:IUserList,
+  action:UserListActionTypes,
+) => {
+  const [newState, ...patches]: [IUserList, Patch[], Patch[]] = (
+    produceWithPatches(recipe,
+      initialState)
+  )(state, action);
+
+  // TO-DO: Send patches to server for real time clients updates...
+
+  return () => newState;
+};
 
 export default UserListReducer;
