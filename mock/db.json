@@ -15,9 +15,8 @@
       "name": "Bret Powella",
       "username": "Gioag_affa",
       "email": "Xbvc@foo.foo",
-      "age": "32",
-      "enabled": true,
-      "supervisedBy": 458
+      "age": 35,
+      "enabled": true
     },
     {
       "id": 3,

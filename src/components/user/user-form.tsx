@@ -20,9 +20,13 @@ const UserForm: React.FC<Props> = ({
   const [userData, setUserData] = React.useState<IUser>(user);
 
   const handleUserData = (e: React.FormEvent<HTMLInputElement>) => {
+    let { value }: any = e.currentTarget;
+    if (e.currentTarget.type === 'number') {
+      value = Number(value);
+    }
     setUserData({
       ...userData,
-      [e.currentTarget.name]: e.currentTarget.value,
+      [e.currentTarget.name]: value,
     });
   };
 
@@ -72,7 +76,7 @@ const UserForm: React.FC<Props> = ({
           />
           <Form.Input
             fluid
-            type="text"
+            type="number"
             id="age"
             name="age"
             value={userData.age}
