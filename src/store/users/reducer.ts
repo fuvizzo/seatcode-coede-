@@ -1,8 +1,13 @@
 /* eslint-disable default-case */
-import { Patch, produce, produceWithPatches } from 'immer';
+import {
+  Patch,
+  produce,
+  produceWithPatches,
+  enablePatches,
+} from 'immer';
 
 import { Reducer } from 'redux';
-import { Interface } from 'readline';
+
 import {
   IUserList,
   UserListActionTypes,
@@ -17,6 +22,8 @@ export const initialState: IUserList = {
     direction: 'ascending',
   },
 };
+
+enablePatches();
 
 const recipe = (draft: IUserList, action: UserListActionTypes): void => {
   switch (action.type) {
@@ -64,26 +71,21 @@ const recipe = (draft: IUserList, action: UserListActionTypes): void => {
   }
 };
 
-const UserListReducer: Reducer<IUserList, UserListActionTypes> = produce(
+export const UserListReducer: Reducer<IUserList, UserListActionTypes> = produce(
   recipe,
   initialState,
 );
 
-type PatchedReducer<T> = (state: T, action:UserListActionTypes
-) => Reducer<T, UserListActionTypes>;
-
-export const PatchesUserListReducer: PatchedReducer<IUserList> = (
-  state:IUserList,
+const PatchesUserListReducer:Reducer<IUserList, UserListActionTypes> = (
+  state:IUserList = initialState,
   action:UserListActionTypes,
 ) => {
   const [newState, ...patches]: [IUserList, Patch[], Patch[]] = (
     produceWithPatches(recipe,
       initialState)
   )(state, action);
-
   // TO-DO: Send patches to server for real time clients updates...
-
-  return () => newState;
+  return newState;
 };
 
-export default UserListReducer;
+export default PatchesUserListReducer;
