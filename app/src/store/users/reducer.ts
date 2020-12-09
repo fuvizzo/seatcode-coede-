@@ -12,7 +12,7 @@ import {
   IUserList,
   UserListActionTypes,
 } from './types';
-
+import webSocketHanlder, { IWebSocketHandler } from '../../websocket';
 import * as UserActions from './constants';
 
 export const initialState: IUserList = {
@@ -22,6 +22,8 @@ export const initialState: IUserList = {
     direction: 'ascending',
   },
 };
+
+const wsHandler:IWebSocketHandler = webSocketHanlder.getInstance();
 
 enablePatches();
 
@@ -84,7 +86,9 @@ const PatchesUserListReducer:Reducer<IUserList, UserListActionTypes> = (
     produceWithPatches(recipe,
       initialState)
   )(state, action);
-  // TO-DO: Send patches to server for real time clients updates...
+
+  wsHandler.sendMessage(JSON.stringify(patches));
+
   return newState;
 };
 

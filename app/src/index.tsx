@@ -14,6 +14,10 @@ import reportWebVitals from './reportWebVitals';
 import Store from './store';
 import 'semantic-ui-css/semantic.min.css';
 
+import webSocketHanlder from './websocket';
+
+webSocketHanlder.getInstance();
+
 ReactDOM.render(
   <Provider store={Store}>
     <Router>

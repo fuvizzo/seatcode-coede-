@@ -16,7 +16,8 @@
       "username": "Gioag_affa",
       "email": "Xbvc@foo.foo",
       "age": 35,
-      "enabled": true
+      "enabled": true,
+      "supervisedBy": null
     },
     {
       "id": 3,
@@ -26,6 +27,14 @@
       "age": 31,
       "enabled": true,
       "supervisedBy": 1254
+    },
+    {
+      "id": 4,
+      "username": "fuvix1977",
+      "email": "fulvio.cusimano@gmail.com",
+      "name": "Fulvio Cusimano",
+      "age": 43,
+      "enabled": false
     }
   ]
 }

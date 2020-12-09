@@ -1,0 +1,14 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "wss typescript",
+			"type": "typescript",
+			"tsconfig": "ws-server/tsconfig.json",
+			"problemMatcher": [
+				"$tsc-watch"
+			],
+			"option": "watch"
+		}
+	]
+}
