@@ -1,3 +1,4 @@
+import { Patch } from 'immer';
 import * as UserActions from './constants';
 
 export interface IUser {
@@ -56,9 +57,14 @@ interface GetFilterdUsers {
 interface ToggleSupervisedBy {
   type: typeof UserActions.TOGGLE_SUPERVISED_BY
   payload: {
-    currentUserId:number
-    userId:number
+    currentUserId: number
+    userId: number
   }
+}
+
+interface ApplyPatches {
+  type: typeof UserActions.APPLY_PATCHES
+  payload: Patch[]
 }
 
 export type UserListActionTypes = GetUsers
@@ -67,4 +73,5 @@ export type UserListActionTypes = GetUsers
   | UpdateUser
   | SortUserBy
   | ToggleSupervisedBy
-  | GetFilterdUsers;
+  | GetFilterdUsers
+  | ApplyPatches;

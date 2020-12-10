@@ -4,6 +4,7 @@ import {
   produce,
   produceWithPatches,
   enablePatches,
+  applyPatches,
 } from 'immer';
 
 import { Reducer } from 'redux';
@@ -70,6 +71,9 @@ const recipe = (draft: IUserList, action: UserListActionTypes): void => {
       }
       break;
     }
+    case UserActions.APPLY_PATCHES:
+      applyPatches(draft, action.payload);
+      break;
   }
 };
 

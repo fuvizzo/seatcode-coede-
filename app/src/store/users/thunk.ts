@@ -39,12 +39,19 @@ const toggleSupervisedBy = (userId: number)
         id: currentUserId,
       },
     } = getState();
-    const user = users.find((_user) => _user.id === userId);
+    const user = { ...users.find((_user) => _user.id === userId) };
     if (user) {
-      const data = {
-        ...user,
-        supervisedBy: user.supervisedBy === currentUserId ? null : currentUserId,
-      };
+      let data;
+      if (user.supervisedBy === currentUserId) {
+        delete user.supervisedBy;
+        data = user;
+      } else {
+        data = {
+          ...user,
+          supervisedBy: currentUserId,
+        };
+      }
+
       await axios.put(`${URL}/users/${user.id}`, data);
       dispatch(UserListActions.toggleSupervisedBy(currentUserId, userId));
     }

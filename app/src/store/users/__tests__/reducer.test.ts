@@ -82,11 +82,47 @@ describe('UserList reducer', () => {
           id: 123,
           age: 30,
           enabled: false,
-          supervisedBy: undefined,
         },
       };
       const state = reducer(userList, action);
       expect(state.users[0].name).toEqual('Foo Boo');
+    });
+  });
+
+  describe('should handle TOGGLE_SUPERVISED_BY', () => {
+    it('toggles supervisedBy to some supervisor user ID', () => {
+      const userList: IUserList = {
+        ...initialState,
+        users: [fakeUser],
+      };
+      const action: UserListActionTypes = {
+        type: UserActions.TOGGLE_SUPERVISED_BY,
+        payload: {
+          currentUserId: 467,
+          userId: 123,
+        },
+      };
+      const state = reducer(userList, action);
+      expect(state.users[0].supervisedBy).toEqual(467);
+    });
+
+    it('toggles supervisedBy to undefined if supervisor user ID is the same as supervisedBy value', () => {
+      const userList: IUserList = {
+        ...initialState,
+        users: [{
+          ...fakeUser,
+          supervisedBy: 467,
+        }],
+      };
+      const action: UserListActionTypes = {
+        type: UserActions.TOGGLE_SUPERVISED_BY,
+        payload: {
+          currentUserId: 467,
+          userId: 123,
+        },
+      };
+      const state = reducer(userList, action);
+      expect(state.users[0].supervisedBy).toEqual(undefined);
     });
   });
 });
