@@ -4,14 +4,13 @@ export interface IWebSocketHandler {
 }
 
 const url = 'ws://localhost:5000';
-const connection = new WebSocket(url);
 
 class WebSocketHandler implements IWebSocketHandler {
   private static instance: WebSocketHandler;
 
   private channelIsOpen: boolean = false;
 
-  private connection: WebSocket;
+  private connection: WebSocket |null=null;
 
   /**
    * The Singleton's constructor should always be private to prevent direct
@@ -19,18 +18,14 @@ class WebSocketHandler implements IWebSocketHandler {
    */
   private constructor() {
     this.connection = new WebSocket(url);
-    connection.onopen = () => {
+    this.connection.onopen = () => {
       console.log(`Connection opened to ${url}`);
       this.channelIsOpen = true;
     };
 
-    connection.onerror = (event:Event) => {
+    this.connection.onerror = (event:Event) => {
       console.log(`WebSocket error: ${event}`);
     };
-
-    connection.onmessage = ((event:MessageEvent<any>) => {
-      console.log(event.data);
-    });
   }
 
   public static getInstance(): WebSocketHandler {
@@ -42,12 +37,12 @@ class WebSocketHandler implements IWebSocketHandler {
   }
 
   public sendMessage(message: string) {
-    if (this.channelIsOpen) {
+    if (this.connection && this.channelIsOpen) {
       this.connection.send(message);
     }
   }
 
-  public onMesageReceived = connection.onmessage
+  public onMesageReceived = this.connection && this.channelIsOpen ? this.connection.onmessage : null
 }
 
 export default WebSocketHandler;
