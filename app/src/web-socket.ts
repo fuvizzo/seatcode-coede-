@@ -1,6 +1,7 @@
 export interface IWebSocketHandler {
-  sendMessage: (message:string) => void
-  onMesageReceived: ((this: WebSocket, ev: MessageEvent<any>) => any) | null
+  sendMessage: (message: string) => void
+  setOnMesageReceivedHandler: (callBack: ((event: MessageEvent<any>) => void)) => void
+  channelIsOpen: boolean
 }
 
 const url = 'ws://localhost:5000';
@@ -8,9 +9,9 @@ const url = 'ws://localhost:5000';
 class WebSocketHandler implements IWebSocketHandler {
   private static instance: WebSocketHandler;
 
-  private channelIsOpen: boolean = false;
+  private connection: WebSocket | null = null;
 
-  private connection: WebSocket |null=null;
+  public channelIsOpen: boolean = false;
 
   /**
    * The Singleton's constructor should always be private to prevent direct
@@ -23,9 +24,13 @@ class WebSocketHandler implements IWebSocketHandler {
       this.channelIsOpen = true;
     };
 
-    this.connection.onerror = (event:Event) => {
+    this.connection.onerror = (event: Event) => {
       console.log(`WebSocket error: ${event}`);
     };
+
+    /*   this.connection.onmessage = (event: MessageEvent<any>) => {
+
+      }; */
   }
 
   public static getInstance(): WebSocketHandler {
@@ -42,7 +47,11 @@ class WebSocketHandler implements IWebSocketHandler {
     }
   }
 
-  public onMesageReceived = this.connection && this.channelIsOpen ? this.connection.onmessage : null
+  public setOnMesageReceivedHandler(callBack: ((event: MessageEvent<any>) => void)): void {
+    if (this.connection) {
+      this.connection.onmessage = callBack;
+    }
+  }
 }
 
 export default WebSocketHandler;

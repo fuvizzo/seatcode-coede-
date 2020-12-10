@@ -14,7 +14,7 @@ import reportWebVitals from './reportWebVitals';
 import Store from './store';
 import 'semantic-ui-css/semantic.min.css';
 
-import webSocketHanlder from './websocket';
+import webSocketHanlder from './web-socket';
 
 webSocketHanlder.getInstance();
 

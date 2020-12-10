@@ -1,4 +1,5 @@
-import { IUser, UserListActionTypes } from './types';
+import { Patch } from 'immer';
+import { IUser, IUserList, UserListActionTypes } from './types';
 import * as UserActions from './constants';
 
 const getUsers = (users: IUser[]): UserListActionTypes => ({
@@ -40,6 +41,11 @@ const toggleSupervisedBy = (currentUserId: number, userId: number): UserListActi
     currentUserId,
     userId,
   },
+});
+
+export const applyPatches = (patches:Patch[]): UserListActionTypes => ({
+  type: UserActions.APPLY_PATCHES,
+  payload: patches,
 });
 
 export default {

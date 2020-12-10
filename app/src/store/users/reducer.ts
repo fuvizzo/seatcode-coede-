@@ -13,7 +13,7 @@ import {
   IUserList,
   UserListActionTypes,
 } from './types';
-import webSocketHanlder, { IWebSocketHandler } from '../../websocket';
+import webSocketHanlder, { IWebSocketHandler } from '../../web-socket';
 import * as UserActions from './constants';
 
 export const initialState: IUserList = {
@@ -71,9 +71,6 @@ const recipe = (draft: IUserList, action: UserListActionTypes): void => {
       }
       break;
     }
-    case UserActions.APPLY_PATCHES:
-      applyPatches(draft, action.payload);
-      break;
   }
 };
 
@@ -86,13 +83,15 @@ const PatchesUserListReducer:Reducer<IUserList, UserListActionTypes> = (
   state:IUserList = initialState,
   action:UserListActionTypes,
 ) => {
-  const [newState, ...patches]: [IUserList, Patch[], Patch[]] = (
+  if (action.type === UserActions.APPLY_PATCHES) {
+    return applyPatches(state, action.payload);
+  }
+  const [newState, patches]: [IUserList, Patch[], Patch[]] = (
     produceWithPatches(recipe,
       initialState)
   )(state, action);
 
   wsHandler.sendMessage(JSON.stringify(patches));
-
   return newState;
 };
 
