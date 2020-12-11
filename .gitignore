@@ -4,12 +4,13 @@
 /**/build
 
 # dependencies
+
 /**/node_modules
 /**/public
 /.pnp
 .pnp.js
 
-.eslintcache 
+/**/.eslintcache 
 
 # testing
 /coverage
@@ -29,4 +30,5 @@ yarn-error.log*
 /**/cypress/integration/examples/
 #/.vscode
 
-/**/mock/
+/**/mock/db.json
+

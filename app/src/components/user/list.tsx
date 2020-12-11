@@ -86,7 +86,7 @@ export const UserListComponent: React.FC<PropsFromRedux> = (props) => {
     triggerUserSearch(data.value);
     timeoutRef.current = setTimeout(() => {
       getFilteredUsers();
-    }, 300);
+    }, 1000);
   }, []);
 
   if (insertModeOn) {

@@ -17,25 +17,28 @@ import patchHandler from './store/patch-handler';
 patchHandler.init(store.dispatch);
 
 const AppContatiner: React.FC = () => (
+
   <Provider store={store}>
     <Router>
-      <div>
-        <h2>Supervisors</h2>
-        <ul>
-          <li>
-            <Link to="/1254">Mark Paine</Link>
-          </li>
-          <li>
-            <Link to="/458">John Taylor</Link>
-          </li>
-        </ul>
+      <Route exact path="/">
+        <div>
+          <h2>Supervisors</h2>
+          <ul>
+            <li>
+              <Link to="/1254">Mark Paine</Link>
+            </li>
+            <li>
+              <Link to="/458">John Taylor</Link>
+            </li>
+          </ul>
+        </div>
+      </Route>
+      <Switch>
+        <Route path="/:userId">
+          <App />
+        </Route>
+      </Switch>
 
-        <Switch>
-          <Route path="/:userId">
-            <App />
-          </Route>
-        </Switch>
-      </div>
     </Router>
 
   </Provider>
