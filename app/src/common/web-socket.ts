@@ -27,10 +27,6 @@ class WebSocketHandler implements IWebSocketHandler {
     this.connection.onerror = (event: Event) => {
       console.log(`WebSocket error: ${event}`);
     };
-
-    /*   this.connection.onmessage = (event: MessageEvent<any>) => {
-
-      }; */
   }
 
   public static getInstance(): WebSocketHandler {

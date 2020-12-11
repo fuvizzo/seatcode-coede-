@@ -1,12 +1,18 @@
 import { Server as WebSockerServer } from 'ws';
 
+interface IPatchData {
+  [s: string]: [any?]
+}
+
 const wss: WebSockerServer = new WebSockerServer({
   port: 5000,
 });
 
 const connections: WebSocket[] = [];
 
-const history: any = [];
+const history: IPatchData = {
+  userList: []
+};
 
 wss.on('connection', (ws: WebSocket) => {
   console.log('Starting web socket server');
@@ -22,7 +28,11 @@ wss.on('connection', (ws: WebSocket) => {
 
   ws.onmessage = (event: MessageEvent) => {
     console.log(event.data);
-    history.push(...JSON.parse(event.data));
+    const data = JSON.parse(event.data);
+    Object.keys(data).forEach((key: string) => {
+      history[key].push(...data[key]);
+    });
+    console.log(history);
     connections.filter((client) => ws !== client).forEach((client) => {
       client.send(event.data);
     });

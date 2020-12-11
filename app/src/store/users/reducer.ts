@@ -11,9 +11,10 @@ import { Reducer } from 'redux';
 
 import {
   IUserList,
+  ApplyPatchesActionType,
   UserListActionTypes,
 } from './types';
-import webSocketHanlder, { IWebSocketHandler } from '../../web-socket';
+import webSocketHanlder, { IWebSocketHandler } from '../../common/web-socket';
 import * as UserActions from './constants';
 
 export const initialState: IUserList = {
@@ -79,9 +80,9 @@ export const UserListReducer: Reducer<IUserList, UserListActionTypes> = produce(
   initialState,
 );
 
-const PatchesUserListReducer:Reducer<IUserList, UserListActionTypes> = (
+const PatchesUserListReducer:Reducer<IUserList, UserListActionTypes | ApplyPatchesActionType> = (
   state:IUserList = initialState,
-  action:UserListActionTypes,
+  action:UserListActionTypes| ApplyPatchesActionType,
 ) => {
   if (action.type === UserActions.APPLY_PATCHES) {
     return applyPatches(state, action.payload);
@@ -91,7 +92,9 @@ const PatchesUserListReducer:Reducer<IUserList, UserListActionTypes> = (
       initialState)
   )(state, action);
 
-  wsHandler.sendMessage(JSON.stringify(patches));
+  if (patches.length !== 0) {
+    wsHandler.sendMessage(JSON.stringify({ userList: patches }));
+  }
   return newState;
 };
 

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Dispatch } from 'redux';
 import {
   Search,
   Table,
@@ -8,16 +7,13 @@ import {
   Container,
   Grid,
 } from 'semantic-ui-react';
-import { Patch } from 'immer';
 import User from './user-record';
 import * as userListActions from '../../store/users/thunk';
 import uiActions from '../../store/ui/actions';
-import { applyPatches } from '../../store/users/actions';
 import UserForm from './user-form';
 import { IUser } from '../../store/users/types';
 import DeleteWarningModal from './delete-warning-modal';
 import { RootState } from '../../store';
-import webSocketHanlder, { IWebSocketHandler } from '../../web-socket';
 
 const connector = connect(
   (state: RootState) => ({
@@ -28,7 +24,6 @@ const connector = connect(
   {
     ...userListActions,
     ...uiActions,
-    ...{ applyUserListPatches: applyPatches },
   },
 );
 
@@ -41,8 +36,6 @@ const newUser: IUser = {
   enabled: false,
 };
 
-const ws:IWebSocketHandler = webSocketHanlder.getInstance();
-
 type PropsFromRedux = ConnectedProps<typeof connector>
 
 export const UserListComponent: React.FC<PropsFromRedux> = (props) => {
@@ -51,7 +44,6 @@ export const UserListComponent: React.FC<PropsFromRedux> = (props) => {
     getFilteredUsers,
     triggerUserSearch,
     updateUser,
-    applyUserListPatches,
     toggleSupervisedBy,
     createUser,
     deleteUser,
@@ -73,14 +65,6 @@ export const UserListComponent: React.FC<PropsFromRedux> = (props) => {
   React.useEffect(() => {
     getUsers();
   }, []);
-
-  React.useEffect(() => {
-    if (ws.channelIsOpen) {
-      ws.setOnMesageReceivedHandler((event:MessageEvent<any>) => {
-        applyUserListPatches(JSON.parse(event.data) as Patch[]);
-      });
-    }
-  }, [ws.channelIsOpen]);
 
   const createHandler = React.useCallback((user: IUser) => {
     setInsertModeOn(false);

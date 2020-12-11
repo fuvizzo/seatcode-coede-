@@ -62,7 +62,7 @@ interface ToggleSupervisedBy {
   }
 }
 
-interface ApplyPatches {
+export interface ApplyPatchesActionType {
   type: typeof UserActions.APPLY_PATCHES
   payload: Patch[]
 }
@@ -74,4 +74,3 @@ export type UserListActionTypes = GetUsers
   | SortUserBy
   | ToggleSupervisedBy
   | GetFilterdUsers
-  | ApplyPatches;
