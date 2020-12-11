@@ -58,12 +58,9 @@ export const UserListComponent: React.FC<PropsFromRedux> = (props) => {
   const [pendingDeleteUser, setPendingDeleteUser] = React.useState<IUser | any>(null);
   const timeoutRef = React.useRef<any>();
 
-  React.useEffect(() => () => {
-    clearTimeout(timeoutRef.current);
-  }, []);
-
   React.useEffect(() => {
     getUsers();
+    return () => clearTimeout(timeoutRef.current);
   }, []);
 
   const createHandler = React.useCallback((user: IUser) => {
