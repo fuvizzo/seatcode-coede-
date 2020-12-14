@@ -3,7 +3,7 @@
 I used a new UserList data structure to optimize and improve the behavior of immer patches.
 The json-server does not work well with non array data structure thus not all the REST APIs provided by the json-server have the expected behaviour.
 
-It's fine in the end because I just wanted to play a bit with Immer patches
+It's fine in the end because I just wanted to play a bit with Immer patches and this was just an evolution of a code challenge I was given to work on.
 
 
 # Getting Started with Create React App
