@@ -55,7 +55,7 @@ export const UserListComponent: React.FC<PropsFromRedux> = (props) => {
   } = props;
 
   const [insertModeOn, setInsertModeOn] = React.useState<boolean>(false);
-  const [pendingDeleteUser, setPendingDeleteUser] = React.useState<IUser | any>(null);
+  const [pendingDeleteUser, setPendingDeleteUser] = React.useState<IUser|null>();
   const timeoutRef = React.useRef<any>();
 
   React.useEffect(() => {
@@ -70,8 +70,10 @@ export const UserListComponent: React.FC<PropsFromRedux> = (props) => {
 
   const deleteHandler = React.useCallback(
     () => {
-      deleteUser(pendingDeleteUser.id);
-      setPendingDeleteUser(null);
+      if (pendingDeleteUser) {
+        deleteUser(pendingDeleteUser.id);
+        setPendingDeleteUser(null);
+      }
     },
     [pendingDeleteUser],
   );

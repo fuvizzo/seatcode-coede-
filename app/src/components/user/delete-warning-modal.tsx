@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-use-before-define
 import * as React from 'react';
 import { Button, Icon, Modal } from 'semantic-ui-react';
 import { IUser } from '../../store/users/types';
