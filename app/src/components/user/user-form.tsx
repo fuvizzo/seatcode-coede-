@@ -2,7 +2,7 @@ import * as React from 'react';
 import {
   Button, Icon, Modal, Form,
 } from 'semantic-ui-react';
-import { IUser } from '../../store/users/types';
+import { IUser, IUserData } from '../../store/users/types';
 
 type Props = {
   onSubmitButtonClicked: (user: IUser) => void
@@ -17,7 +17,7 @@ const UserForm: React.FC<Props> = ({
   onSubmitButtonClicked,
   onCancel,
 }) => {
-  const [userData, setUserData] = React.useState<IUser>(user);
+  const [userData, setUserData] = React.useState<IUserData>(user.data);
 
   const handleUserData = (e: React.FormEvent<HTMLInputElement>) => {
     let { value }: any = e.currentTarget;
@@ -32,7 +32,10 @@ const UserForm: React.FC<Props> = ({
 
   const handelSubmitButtonClick = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmitButtonClicked(userData);
+    onSubmitButtonClicked({
+      id: user.id,
+      data: userData,
+    });
   };
 
   return (
@@ -48,7 +51,7 @@ const UserForm: React.FC<Props> = ({
         <Form>
           <Form.Input
             fluid
-            disabled={user.id !== 0}
+            disabled={user.id !== ''}
             type="text"
             id="username"
             name="username"

@@ -7,7 +7,7 @@ import { ICurrentUser } from './types';
 
 const URL: string = 'http://localhost:3004';
 
-export const getCurrentUser = (userId:number): AppThunk => async (dispatch) => {
+export const getCurrentUser = (userId: string): AppThunk => async (dispatch) => {
   buildRequestAndDispatchAction(async () => {
     const results: AxiosResponse<any> = await axios.get(`${URL}/supervisors/${userId}`);
     const user: ICurrentUser = results.data;

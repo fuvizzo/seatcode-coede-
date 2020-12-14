@@ -24,20 +24,22 @@ type DispatchExts = ThunkDispatch<RootState, undefined, UserListActionTypes>;
 
 const middlewares = [thunk];
 const mockStore = configureMockStore<RootState, DispatchExts>(middlewares);
-const userList:IUserList = {
+const userList: IUserList = {
   ...initialState,
   users: jsonData.users,
 };
 
 const store = mockStore();
-const baseUrl:string = 'http://localhost:3004';
-const fakeUser:IUser = {
-  username: 'xyz',
-  name: 'Foo foo',
-  email: 'foo@foo.foo',
-  id: 123,
-  age: 30,
-  enabled: false,
+const baseUrl: string = 'http://localhost:3004';
+const fakeUser: IUser = {
+  id: 'd0634484-6c21-4680-9d78-47d46d68e91f',
+  data: {
+    username: 'xyz',
+    name: 'Foo foo',
+    email: 'foo@foo.foo',
+    age: 30,
+    enabled: false,
+  },
 };
 
 describe('User list actions', () => {
@@ -56,7 +58,7 @@ describe('User list actions', () => {
       },
     });
 
-    const expectedAction:UserListActionTypes = {
+    const expectedAction: UserListActionTypes = {
       type: GET_USERS,
       payload: userList.users,
     };
@@ -76,7 +78,7 @@ describe('User list actions', () => {
       },
     });
 
-    const expectedAction:UserListActionTypes = {
+    const expectedAction: UserListActionTypes = {
       type: CREATE_USER,
       payload: fakeUser,
     };
@@ -89,10 +91,10 @@ describe('User list actions', () => {
   it('should create an action to edit an user', () => {
     moxios.stubRequest(`${baseUrl}/users/123`, {
       status: 200,
-      response: { },
+      response: {},
     });
 
-    const expectedAction:UserListActionTypes = {
+    const expectedAction: UserListActionTypes = {
       type: UPDATE_USER,
       payload: fakeUser,
     };
@@ -105,10 +107,10 @@ describe('User list actions', () => {
   it('should create an action to delete an user', () => {
     moxios.stubRequest(`${baseUrl}/users/123`, {
       status: 200,
-      response: { },
+      response: {},
     });
 
-    const expectedAction:UserListActionTypes = {
+    const expectedAction: UserListActionTypes = {
       type: DELETE_USER,
       payload: { userId: fakeUser.id },
     };

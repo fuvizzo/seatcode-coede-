@@ -30,7 +30,7 @@ const App: React.FC<PropsFromRedux> = (props) => {
 
   React.useEffect(() => {
     if (userId) {
-      getCurrentUser(Number(userId));
+      getCurrentUser(userId);
     }
   }, [userId]);
 

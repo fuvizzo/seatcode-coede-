@@ -6,7 +6,7 @@ import { ICurrentUser, CurrentUserActionTypes } from '../types';
 
 const fakeUser: ICurrentUser = {
   name: 'Foo foo',
-  id: 123,
+  id: 'c9c2fe64-3de6-4825-b2c2-5d374e48ec67',
 };
 
 describe('CurrentUser reducer', () => {

@@ -18,14 +18,14 @@ import webSocketHanlder, { IWebSocketHandler } from '../../common/web-socket';
 import * as UserActions from './constants';
 
 export const initialState: IUserList = {
-  users: [],
+  users: {},
   sort: {
     column: 'name',
     direction: 'ascending',
   },
 };
 
-const wsHandler:IWebSocketHandler = webSocketHanlder.getInstance();
+const wsHandler: IWebSocketHandler = webSocketHanlder.getInstance();
 
 enablePatches();
 
@@ -45,24 +45,21 @@ const recipe = (draft: IUserList, action: UserListActionTypes): void => {
       draft.users = action.payload;
       break;
     case UserActions.CREATE_USER:
-      draft.users.push(action.payload);
+      draft.users[action.payload.id] = action.payload.data;
       break;
     case UserActions.DELETE_USER:
-      draft.users = draft.users.filter(
-        (user) => user.id !== action.payload.userId,
-      );
+      delete draft.users[action.payload.userId];
       break;
     case UserActions.UPDATE_USER: {
-      const index = draft.users.findIndex((user) => user.id === action.payload.id);
-      if (index !== -1) {
-        draft.users[index] = action.payload;
+      const userId = Object.keys(draft.users).find((key) => key === action.payload.id);
+      if (userId) {
+        draft.users[userId] = action.payload.data;
       }
       break;
     }
     case UserActions.TOGGLE_SUPERVISED_BY: {
-      const index = draft.users.findIndex((user) => user.id === action.payload.userId);
-      if (index !== -1) {
-        const user = draft.users[index];
+      const user = draft.users[action.payload.userId];
+      if (user) {
         const supervisedBy = user.supervisedBy === action.payload.currentUserId
           ? undefined
           : user.supervisedBy;
@@ -80,9 +77,9 @@ export const UserListReducer: Reducer<IUserList, UserListActionTypes> = produce(
   initialState,
 );
 
-const PatchesUserListReducer:Reducer<IUserList, UserListActionTypes | ApplyPatchesActionType> = (
-  state:IUserList = initialState,
-  action:UserListActionTypes| ApplyPatchesActionType,
+const PatchesUserListReducer: Reducer<IUserList, UserListActionTypes | ApplyPatchesActionType> = (
+  state: IUserList = initialState,
+  action: UserListActionTypes | ApplyPatchesActionType,
 ) => {
   if (action.type === UserActions.APPLY_PATCHES) {
     return applyPatches(state, action.payload);

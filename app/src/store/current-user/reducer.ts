@@ -8,7 +8,7 @@ import {
 import * as CurrentUserActions from './constants';
 
 export const initialState: ICurrentUser = {
-  id: 0,
+  id: '',
   name: '',
 };
 

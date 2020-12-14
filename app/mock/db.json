@@ -1,40 +1,42 @@
 {
   "supervisors": [
     {
-      "id": 1254,
+      "id": "c9c2fe64-3de6-4825-b2c2-5d374e48ec67",
       "name": "Mark Paine"
     },
     {
-      "id": 458,
+      "id": "c09fe191-a062-4458-b1fe-f02f3b3801d9",
       "name": "John Taylor"
     }
   ],
-  "users": [
-    {
-      "id": 1,
+  "users": {
+    "6fa96d40-13ca-46b0-bf2b-4306e5eade16": {
       "name": "Bret Powella",
       "username": "Gioag_affa",
       "email": "Xbvc@foo.foo",
-      "age": 37,
-      "enabled": true,
-      "supervisedBy": 1254
+      "age": 31,
+      "enabled": true
     },
-    {
-      "id": 3,
+    "37f220af-b738-4830-950c-980328b9fe73": {
       "name": "Clementine Bauch",
       "username": "Samantha",
       "email": "Nathan@yesenia.net",
-      "age": 31,
-      "enabled": true,
-      "supervisedBy": 1254
+      "age": 37,
+      "enabled": true
     },
-    {
-      "id": 4,
+    "5fcd9819-1187-4ee5-ad3c-782d6f452320": {
       "username": "fuvix1977",
       "email": "fulvio.cusimano@gmail.com",
       "name": "Fulvio Cusimano",
       "age": 43,
       "enabled": false
+    },
+    "cad2a0c5-aca2-4adf-bebe-200c5121f0ed": {
+      "username": "xxxx",
+      "email": "gabrielacavallaro24@gmail.com",
+      "name": "Gabriela Cavallaro",
+      "age": 24,
+      "enabled": false
     }
-  ]
+  }
 }

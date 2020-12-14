@@ -1,8 +1,10 @@
 import { Patch } from 'immer';
-import { IUser, UserListActionTypes, ApplyPatchesActionType } from './types';
+import {
+  IUser, IUserHash, UserListActionTypes, ApplyPatchesActionType,
+} from './types';
 import * as UserActions from './constants';
 
-const getUsers = (users: IUser[]): UserListActionTypes => ({
+const getUsers = (users: IUserHash): UserListActionTypes => ({
   type: UserActions.GET_USERS,
   payload: users,
 });
@@ -12,7 +14,7 @@ const createUser = (newUser: IUser): UserListActionTypes => ({
   payload: newUser,
 });
 
-const deleteUser = (userId: number): UserListActionTypes => ({
+const deleteUser = (userId: string): UserListActionTypes => ({
   type: UserActions.DELETE_USER,
   payload: {
     userId,
@@ -24,18 +26,18 @@ const updateUser = (user: IUser): UserListActionTypes => ({
   payload: user,
 });
 
-const sortUserBy = (column: string, results: IUser[]): UserListActionTypes => ({
+const sortUserBy = (column: string, results: IUserHash): UserListActionTypes => ({
   type: UserActions.SORT_USER_BY,
   column,
   payload: results,
 });
 
-const getFilteredUsers = (results: IUser[]): UserListActionTypes => ({
+const getFilteredUsers = (results: IUserHash): UserListActionTypes => ({
   type: UserActions.GET_FILTERED_USERS,
   payload: results,
 });
 
-const toggleSupervisedBy = (currentUserId: number, userId: number): UserListActionTypes => ({
+const toggleSupervisedBy = (currentUserId: string, userId: string): UserListActionTypes => ({
   type: UserActions.TOGGLE_SUPERVISED_BY,
   payload: {
     currentUserId,

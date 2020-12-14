@@ -21,7 +21,7 @@ const DeleteWarningModal: React.FC<Props> = ({
     <Modal.Content>
       If you proceed the user
       {' '}
-      <strong>{user.username}</strong>
+      <strong>{user.data.username}</strong>
       {' '}
       will be deleted permanently. Proceed anyway?
     </Modal.Content>

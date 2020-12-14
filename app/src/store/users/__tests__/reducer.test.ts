@@ -1,16 +1,18 @@
 import reducer, { initialState } from '../reducer';
 import * as UserActions from '../constants';
 import jsonData from '../../../../mock/db.json';
-
 import { IUser, IUserList, UserListActionTypes } from '../types';
 
+const currentUserId = '123';
 const fakeUser: IUser = {
-  username: 'xyz',
-  name: 'Foo foo',
-  email: 'foo@foo.foo',
-  id: 123,
-  age: 30,
-  enabled: false,
+  id: 'd0634484-6c21-4680-9d78-47d46d68e91f',
+  data: {
+    username: 'xyz',
+    name: 'Foo foo',
+    email: 'foo@foo.foo',
+    age: 30,
+    enabled: false,
+  },
 };
 
 describe('UserList reducer', () => {
@@ -31,7 +33,7 @@ describe('UserList reducer', () => {
 
     it('doesn\'t modifiy the orginal state', () => {
       expect(
-        initialState.users.length,
+        Object.keys(initialState.users).length,
       ).toEqual(0);
     });
   });
@@ -39,7 +41,9 @@ describe('UserList reducer', () => {
   describe('should handle CREATE_USER', () => {
     const userList: IUserList = {
       ...initialState,
-      users: [fakeUser],
+      users: {
+        [fakeUser.id]: fakeUser.data,
+      },
     };
 
     it('creates a new user', () => {
@@ -69,23 +73,27 @@ describe('UserList reducer', () => {
   describe('should handle UPDATE_USER', () => {
     const userList: IUserList = {
       ...initialState,
-      users: [fakeUser],
+      users: {
+        [fakeUser.id]: fakeUser.data,
+      },
     };
 
     it('updates an existing user', () => {
       const action: UserListActionTypes = {
         type: UserActions.UPDATE_USER,
         payload: {
-          username: 'xyz_boo',
-          name: 'Foo Boo',
-          email: 'boo@foo.foo',
-          id: 123,
-          age: 30,
-          enabled: false,
+          id: fakeUser.id,
+          data: {
+            username: 'xyz_boo',
+            name: 'Foo Boo',
+            email: 'boo@foo.foo',
+            age: 30,
+            enabled: false,
+          },
         },
       };
       const state = reducer(userList, action);
-      expect(state.users[0].name).toEqual('Foo Boo');
+      expect(state.users[fakeUser.id].name).toEqual('Foo Boo');
     });
   });
 
@@ -93,36 +101,40 @@ describe('UserList reducer', () => {
     it('toggles supervisedBy to some supervisor user ID', () => {
       const userList: IUserList = {
         ...initialState,
-        users: [fakeUser],
+        users: {
+          [fakeUser.id]: fakeUser.data,
+        },
       };
       const action: UserListActionTypes = {
         type: UserActions.TOGGLE_SUPERVISED_BY,
         payload: {
-          currentUserId: 467,
-          userId: 123,
+          currentUserId,
+          userId: fakeUser.id,
         },
       };
       const state = reducer(userList, action);
-      expect(state.users[0].supervisedBy).toEqual(467);
+      expect(state.users[fakeUser.id].supervisedBy).toEqual(currentUserId);
     });
 
     it('toggles supervisedBy to undefined if supervisor user ID is the same as supervisedBy value', () => {
       const userList: IUserList = {
         ...initialState,
-        users: [{
-          ...fakeUser,
-          supervisedBy: 467,
-        }],
+        users: {
+          [fakeUser.id]: {
+            ...fakeUser.data,
+            supervisedBy: currentUserId,
+          },
+        },
       };
       const action: UserListActionTypes = {
         type: UserActions.TOGGLE_SUPERVISED_BY,
         payload: {
-          currentUserId: 467,
-          userId: 123,
+          currentUserId,
+          userId: fakeUser.id,
         },
       };
       const state = reducer(userList, action);
-      expect(state.users[0].supervisedBy).toEqual(undefined);
+      expect(state.users[fakeUser.id].supervisedBy).toEqual(undefined);
     });
   });
 });

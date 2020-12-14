@@ -1,3 +1,11 @@
+# NOTE
+
+I used a new UserList data structure to optimize and improve the behavior of immer patches.
+The json-server does not work well with non array data structure thus not all the REST APIs provided by the json-server have the expected behaviour.
+
+It's fine in the end because I just wanted to play a bit with Immer patches
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

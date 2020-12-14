@@ -5,10 +5,10 @@ import UserForm from './user-form';
 
 type Props = {
   user: IUser
-  currentUserId: number
+  currentUserId: string
   confirmDeletion: (user: IUser) => void
   updateUser: (user: IUser) => void
-  toggleSupervisedBy: (userId: number) => void
+  toggleSupervisedBy: (userId: string) => void
 }
 
 const User: React.FC<Props> = ({
@@ -18,6 +18,11 @@ const User: React.FC<Props> = ({
   updateUser,
   toggleSupervisedBy,
 }) => {
+  const {
+    id: userId,
+    data: userData,
+  } = user;
+
   const [editModeOn, setEditModeOn] = React.useState<boolean>(false);
 
   const updateHandler = React.useCallback((editedUserData: IUser) => {
@@ -26,23 +31,23 @@ const User: React.FC<Props> = ({
   }, []);
 
   const superviseHandler = React.useCallback(() => {
-    toggleSupervisedBy(user.id);
-  }, [user.supervisedBy]);
+    toggleSupervisedBy(userId);
+  }, [userData.supervisedBy]);
 
   return (
     <>
       {editModeOn && (
         <UserForm
           header="Edit user"
-          user={{ ...user }}
+          user={user}
           onCancel={() => setEditModeOn(false)}
           onSubmitButtonClicked={updateHandler}
         />
       )}
-      <Table.Cell>{user.username}</Table.Cell>
-      <Table.Cell>{user.name}</Table.Cell>
-      <Table.Cell>{user.email}</Table.Cell>
-      <Table.Cell>{user.age}</Table.Cell>
+      <Table.Cell>{userData.username}</Table.Cell>
+      <Table.Cell>{userData.name}</Table.Cell>
+      <Table.Cell>{userData.email}</Table.Cell>
+      <Table.Cell>{userData.age}</Table.Cell>
       <Table.Cell textAlign="center">
         <Button
           primary
@@ -71,10 +76,10 @@ const User: React.FC<Props> = ({
           data-testid="supervise-user-btn"
           primary
           size="small"
-          disabled={user.supervisedBy !== undefined && user.supervisedBy !== currentUserId}
+          disabled={userData.supervisedBy !== undefined && userData.supervisedBy !== currentUserId}
           onClick={superviseHandler}
         >
-          <Button.Content>{user.supervisedBy ? 'Supervised' : 'Supervise'}</Button.Content>
+          <Button.Content>{userData.supervisedBy ? 'Supervised' : 'Supervise'}</Button.Content>
         </Button>
       </Table.Cell>
     </>

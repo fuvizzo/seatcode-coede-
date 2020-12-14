@@ -11,7 +11,7 @@ import User from './user-record';
 import * as userListActions from '../../store/users/thunk';
 import uiActions from '../../store/ui/actions';
 import UserForm from './user-form';
-import { IUser } from '../../store/users/types';
+import { IUser, IUserData } from '../../store/users/types';
 import DeleteWarningModal from './delete-warning-modal';
 import { RootState } from '../../store';
 
@@ -28,12 +28,14 @@ const connector = connect(
 );
 
 const newUser: IUser = {
-  id: 0,
-  username: '',
-  email: '',
-  name: '',
-  age: 0,
-  enabled: false,
+  id: '',
+  data: {
+    username: '',
+    email: '',
+    name: '',
+    age: 0,
+    enabled: false,
+  },
 };
 
 type PropsFromRedux = ConnectedProps<typeof connector>
@@ -55,7 +57,7 @@ export const UserListComponent: React.FC<PropsFromRedux> = (props) => {
   } = props;
 
   const [insertModeOn, setInsertModeOn] = React.useState<boolean>(false);
-  const [pendingDeleteUser, setPendingDeleteUser] = React.useState<IUser|null>();
+  const [pendingDeleteUser, setPendingDeleteUser] = React.useState<IUser | null>();
   const timeoutRef = React.useRef<any>();
 
   React.useEffect(() => {
@@ -166,20 +168,26 @@ export const UserListComponent: React.FC<PropsFromRedux> = (props) => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {users.map((user: IUser) => (
-            <Table.Row
-              key={user.id}
-              data-testid="table-row"
-            >
-              <User
-                currentUserId={currentUserId}
-                user={user}
-                updateUser={updateUser}
-                toggleSupervisedBy={toggleSupervisedBy}
-                confirmDeletion={confirmDeletionHandler}
-              />
-            </Table.Row>
-          ))}
+          {Object.keys(users).map((id: string) => {
+            const user: IUser = {
+              data: users[id],
+              id,
+            };
+            return (
+              <Table.Row
+                key={id}
+                data-testid="table-row"
+              >
+                <User
+                  currentUserId={currentUserId}
+                  user={user}
+                  updateUser={updateUser}
+                  toggleSupervisedBy={toggleSupervisedBy}
+                  confirmDeletion={confirmDeletionHandler}
+                />
+              </Table.Row>
+            );
+          })}
         </Table.Body>
         <Table.Footer />
       </Table>

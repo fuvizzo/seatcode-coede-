@@ -1,7 +1,7 @@
 import * as CurrentUserActions from './constants';
 
 export interface ICurrentUser {
-  id: number
+  id: string
   name: string
 }
 

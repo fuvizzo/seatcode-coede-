@@ -1,14 +1,18 @@
 import { Patch } from 'immer';
 import * as UserActions from './constants';
 
-export interface IUser {
-  id: number
+export interface IUserData {
   name: string
   username: string
   email: string
   age: number
   enabled: boolean
-  supervisedBy?: number
+  supervisedBy?: string
+}
+
+export interface IUser {
+  id: string
+  data: IUserData
 }
 
 export interface ISort {
@@ -16,14 +20,16 @@ export interface ISort {
   direction: 'ascending' | 'descending' | undefined
 }
 
+export type IUserHash = { [id: string]: IUserData };
+
 export interface IUserList {
-  users: IUser[]
+  users: IUserHash
   sort: ISort
 }
 
 interface GetUsers {
   type: typeof UserActions.GET_USERS
-  payload: IUser[]
+  payload: IUserHash
 }
 
 interface CreateUser {
@@ -34,7 +40,7 @@ interface CreateUser {
 interface DeleteUser {
   type: typeof UserActions.DELETE_USER
   payload: {
-    userId: number
+    userId: string
   }
 }
 
@@ -46,19 +52,19 @@ interface UpdateUser {
 interface SortUserBy {
   type: typeof UserActions.SORT_USER_BY
   column: string
-  payload: IUser[]
+  payload: IUserHash
 }
 
 interface GetFilterdUsers {
   type: typeof UserActions.GET_FILTERED_USERS
-  payload: IUser[]
+  payload: IUserHash
 }
 
 interface ToggleSupervisedBy {
   type: typeof UserActions.TOGGLE_SUPERVISED_BY
   payload: {
-    currentUserId: number
-    userId: number
+    currentUserId: string
+    userId: string
   }
 }
 

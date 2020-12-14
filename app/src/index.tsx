@@ -25,10 +25,10 @@ const AppContatiner: React.FC = () => (
           <h2>Supervisors</h2>
           <ul>
             <li>
-              <Link to="/1254">Mark Paine</Link>
+              <Link to="/c9c2fe64-3de6-4825-b2c2-5d374e48ec67">Mark Paine</Link>
             </li>
             <li>
-              <Link to="/458">John Taylor</Link>
+              <Link to="/c09fe191-a062-4458-b1fe-f02f3b3801d9">John Taylor</Link>
             </li>
           </ul>
         </div>
