@@ -5,6 +5,10 @@ The json-server does not work well with non array data structure thus not all th
 
 It's fine in the end because I just wanted to play a bit with Immer patches and this was just an evolution of a code challenge I was given to work on.
 
+### TO-DO:
+Optimizing patches history in the wss.
+
+Refer to: https://github.com/mweststrate/immer-gifts/blob/lesson18/server.js
 
 # Getting Started with Create React App
 
